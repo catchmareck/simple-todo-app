@@ -1,0 +1,19 @@
+#navbar {
+  flex-direction: row;
+  justify-content: space-between;
+  height: 60px;
+  align-items: center;
+  
+  & img {
+    width: 74px;
+    height: 60px;
+  }
+  
+  & .logo-title-wrapper {
+    align-items: center;
+  }
+  
+  & .main-title {
+    font-size: 2rem;
+  }
+}
