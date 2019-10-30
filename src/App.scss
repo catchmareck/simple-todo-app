@@ -1,3 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -44,10 +48,27 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+.my-1 {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+.m-0 {
+  margin: 0;
+}
+.px-1 {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
 .px-3 {
   padding-left: 2rem;
   padding-right: 2rem;
 }
+.p-0 {
+  padding: 0;
+}
 .d-flex {
   display: flex;
+}
+.navbar-top {
+  margin-top: -60px;
 }
