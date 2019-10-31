@@ -1,0 +1,60 @@
+#tasklists {
+  height: 100%;
+  flex-direction: column;
+  
+  .tasklists-header {
+    text-align: right;
+  }
+  
+  .tasklists-body {
+    flex-direction: row;
+    align-items: flex-start;
+    
+    .tasklist {
+      width: 250px;
+      max-height: 100%;
+      margin-right: 3rem;
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+      border-radius: 3px;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      
+      .tasklist-header {
+        margin-top: 0;
+        margin-right: -.5rem;
+        margin-left: -.5rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: .5rem;
+        border-bottom: 1px solid #bbb;
+        font-size: 1.5rem;
+        background: #dcdcdc;
+      }
+      
+      .tasklist-body {
+        text-align: center;
+        
+        .task {
+          width: 100%;
+          padding: 1rem;
+          box-sizing: border-box;
+          border: 1px solid #d0cece;
+          margin-bottom: .5rem;
+          box-shadow: 1px 1px 2px 0 #dadada;
+          cursor: pointer;
+          transition: box-shadow 300ms;
+          background: #f1f8ff;
+          
+          &:hover {
+            box-shadow: 1px 1px 4px 0 #9f9f9f;
+          }
+        }
+      }
+    }
+    
+    .add-tasklist-column {
+      height: 100%;
+      align-items: center;
+    }
+  }
+}
