@@ -5,7 +5,7 @@ import {
     CreateTaskModal,
     DeleteListInfoModal,
     DeleteTaskInfoModal,
-    EditListModal,
+    EditListModal, EditTaskModal,
     TaskDetailsModal
 } from "../index";
 
@@ -17,6 +17,7 @@ class Taskslists extends Component<any, any> {
         this.state = {
             showCreateListModal: false,
             showEditListModal: false,
+            showEditTaskModal: false,
             showDeleteListModal: false,
             showDeleteTaskModal: false,
             showCreateTaskModal: false,
@@ -26,6 +27,7 @@ class Taskslists extends Component<any, any> {
         
         this.showCreateListModal = this.showCreateListModal.bind(this);
         this.showEditListModal = this.showEditListModal.bind(this);
+        this.showEditTaskModal = this.showEditTaskModal.bind(this);
         this.showDeleteListModal = this.showDeleteListModal.bind(this);
         this.showDeleteTaskModal = this.showDeleteTaskModal.bind(this);
         this.showCreateTaskModal = this.showCreateTaskModal.bind(this);
@@ -41,6 +43,11 @@ class Taskslists extends Component<any, any> {
         
         this.setState({ showEditListModal: true });
         this.showDeleteListModal();
+    }
+
+    showEditTaskModal() {
+        
+        this.setState({ showEditTaskModal: true });
     }
     
     showDeleteListModal() {
@@ -61,6 +68,7 @@ class Taskslists extends Component<any, any> {
     showTaskDetailsModal(task: any) {
         
         this.setState({ showTaskDetailsModal: true, task });
+        this.showEditTaskModal();
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -104,6 +112,7 @@ class Taskslists extends Component<any, any> {
                 <CreateTaskModal show={this.state.showCreateTaskModal} />
                 <TaskDetailsModal show={this.state.showTaskDetailsModal} task={this.state.task} />
                 <DeleteTaskInfoModal show={this.state.showDeleteTaskModal} />
+                <EditTaskModal show={this.state.showEditTaskModal} />
             </div>
         );
     }

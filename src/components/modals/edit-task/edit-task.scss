@@ -1,0 +1,23 @@
+#edit-task-modal {
+  flex-direction: column;
+  text-align: center;
+  width: 20%;
+  
+  .details-middle-row {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  input[type=text], textarea, select {
+    width: 100%;
+    height: 2rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    padding-left: .25rem;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    height: 4rem;
+  }
+}
