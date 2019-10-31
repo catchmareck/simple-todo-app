@@ -94,3 +94,45 @@ button {
 .row {
   width: 100%;
 }
+
+.modal {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  box-shadow: 0 5px 20px 11px rgba(0, 0, 0, 0.18), 0 4px 20px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  
+  &.show {
+    display: flex;
+  }
+  
+  i.close {
+    cursor: pointer;
+  }
+  
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+    p.title {
+      width: 100%;
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+    }
+  }
+}
+.modal-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+}

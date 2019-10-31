@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import './tasklists.scss';
+import {CreateListModal} from "../index";
 
 class Taskslists extends Component<any, any> {
 
     constructor(props: any) {
         super(props);
+        
+        this.state = {
+            showCreateListModal: false
+        };
+        
+        this.showCreateListModal = this.showCreateListModal.bind(this);
+    }
+    
+    showCreateListModal() {
+        
+        this.setState({ showCreateListModal: true });
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -39,9 +51,10 @@ class Taskslists extends Component<any, any> {
                         </div>
                     </div>
                     <div className="d-flex add-tasklist-column">
-                        <button>Add +</button>
+                        <button onClick={this.showCreateListModal}>Add +</button>
                     </div>
                 </div>
+                <CreateListModal show={this.state.showCreateListModal} />
             </div>
         );
     }
