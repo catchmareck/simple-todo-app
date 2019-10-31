@@ -11,7 +11,13 @@ class CreateTeam extends Component<any, any> {
 
         return (
             <div id="create-team" className="d-flex px-3">
-                Tutaj widok create team
+                <h3>Create a team</h3>
+                <form id="create-team-form" className="form">
+                    <input type="text" name="name" placeholder="Team name" />
+                    <textarea name="description" placeholder="Team description"></textarea>
+
+                    <button type="submit">Create</button>
+                </form>
             </div>
         );
     }
