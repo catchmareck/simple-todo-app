@@ -29,6 +29,10 @@
         border-bottom: 1px solid #bbb;
         font-size: 1.5rem;
         background: #dcdcdc;
+        
+        a {
+          cursor: pointer;
+        }
       }
       
       .tasklist-body {

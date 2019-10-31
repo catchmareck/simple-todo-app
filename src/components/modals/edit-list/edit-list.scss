@@ -1,0 +1,15 @@
+#edit-list-modal {
+  flex-direction: column;
+
+  .form {
+    text-align: center;
+  }
+  input {
+    width: 100%;
+    height: 2rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    padding-left: .25rem;
+    box-sizing: border-box;
+  }
+}
