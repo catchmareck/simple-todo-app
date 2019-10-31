@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './tasklists.scss';
-import {CreateListModal, DeleteListInfoModal, EditListModal} from "../index";
+import {CreateListModal, CreateTaskModal, DeleteListInfoModal, EditListModal} from "../index";
 
 class Taskslists extends Component<any, any> {
 
@@ -11,11 +11,13 @@ class Taskslists extends Component<any, any> {
             showCreateListModal: false,
             showEditListModal: false,
             showDeleteListModal: false,
+            showCreateTaskModal: false,
         };
         
         this.showCreateListModal = this.showCreateListModal.bind(this);
         this.showEditListModal = this.showEditListModal.bind(this);
         this.showDeleteListModal = this.showDeleteListModal.bind(this);
+        this.showCreateTaskModal = this.showCreateTaskModal.bind(this);
     }
     
     showCreateListModal() {
@@ -33,6 +35,11 @@ class Taskslists extends Component<any, any> {
         
         this.setState({ showDeleteListModal: true });
     }
+    
+    showCreateTaskModal() {
+        
+        this.setState({ showCreateTaskModal: true });
+    }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
 
@@ -48,13 +55,13 @@ class Taskslists extends Component<any, any> {
                             <div className="task">Task title</div>
                             <div className="task">Task title</div>
                             <div className="task">Task title</div>
-                            <button>Add +</button>
+                            <button onClick={this.showCreateTaskModal}>Add +</button>
                         </div>
                     </div>
                     <div className="tasklist">
                         <p className="tasklist-header"><a onClick={this.showEditListModal}>Bugs</a></p>
                         <div className="tasklist-body">
-                            <button>Add +</button>
+                            <button onClick={this.showCreateTaskModal}>Add +</button>
                         </div>
                     </div>
                     <div className="tasklist">
@@ -62,7 +69,7 @@ class Taskslists extends Component<any, any> {
                         <div className="tasklist-body">
                             <div className="task">Task title</div>
                             <div className="task">Task title</div>
-                            <button>Add +</button>
+                            <button onClick={this.showCreateTaskModal}>Add +</button>
                         </div>
                     </div>
                     <div className="d-flex add-tasklist-column">
@@ -72,6 +79,7 @@ class Taskslists extends Component<any, any> {
                 <CreateListModal show={this.state.showCreateListModal} />
                 <EditListModal show={this.state.showEditListModal} />
                 <DeleteListInfoModal show={this.state.showDeleteListModal}/>
+                <CreateTaskModal show={this.state.showCreateTaskModal} />
             </div>
         );
     }
