@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './tasklists.scss';
-import {CreateListModal, EditListModal} from "../index";
+import {CreateListModal, DeleteListInfoModal, EditListModal} from "../index";
 
 class Taskslists extends Component<any, any> {
 
@@ -10,10 +10,12 @@ class Taskslists extends Component<any, any> {
         this.state = {
             showCreateListModal: false,
             showEditListModal: false,
+            showDeleteListModal: false,
         };
         
         this.showCreateListModal = this.showCreateListModal.bind(this);
         this.showEditListModal = this.showEditListModal.bind(this);
+        this.showDeleteListModal = this.showDeleteListModal.bind(this);
     }
     
     showCreateListModal() {
@@ -24,6 +26,12 @@ class Taskslists extends Component<any, any> {
     showEditListModal() {
         
         this.setState({ showEditListModal: true });
+        this.showDeleteListModal();
+    }
+    
+    showDeleteListModal() {
+        
+        this.setState({ showDeleteListModal: true });
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -63,6 +71,7 @@ class Taskslists extends Component<any, any> {
                 </div>
                 <CreateListModal show={this.state.showCreateListModal} />
                 <EditListModal show={this.state.showEditListModal} />
+                <DeleteListInfoModal show={this.state.showDeleteListModal}/>
             </div>
         );
     }
