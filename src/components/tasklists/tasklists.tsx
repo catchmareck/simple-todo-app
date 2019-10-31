@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import './tasklists.scss';
-import {CreateListModal, CreateTaskModal, DeleteListInfoModal, EditListModal, TaskDetailsModal} from "../index";
+import {
+    CreateListModal,
+    CreateTaskModal,
+    DeleteListInfoModal,
+    DeleteTaskInfoModal,
+    EditListModal,
+    TaskDetailsModal
+} from "../index";
 
 class Taskslists extends Component<any, any> {
 
@@ -11,6 +18,7 @@ class Taskslists extends Component<any, any> {
             showCreateListModal: false,
             showEditListModal: false,
             showDeleteListModal: false,
+            showDeleteTaskModal: false,
             showCreateTaskModal: false,
             showTaskDetailsModal: false,
             task: {}
@@ -19,6 +27,7 @@ class Taskslists extends Component<any, any> {
         this.showCreateListModal = this.showCreateListModal.bind(this);
         this.showEditListModal = this.showEditListModal.bind(this);
         this.showDeleteListModal = this.showDeleteListModal.bind(this);
+        this.showDeleteTaskModal = this.showDeleteTaskModal.bind(this);
         this.showCreateTaskModal = this.showCreateTaskModal.bind(this);
         this.showTaskDetailsModal = this.showTaskDetailsModal.bind(this);
     }
@@ -37,6 +46,11 @@ class Taskslists extends Component<any, any> {
     showDeleteListModal() {
         
         this.setState({ showDeleteListModal: true });
+    }
+
+    showDeleteTaskModal() {
+        
+        this.setState({ showDeleteTaskModal: true });
     }
     
     showCreateTaskModal() {
@@ -89,6 +103,7 @@ class Taskslists extends Component<any, any> {
                 <DeleteListInfoModal show={this.state.showDeleteListModal}/>
                 <CreateTaskModal show={this.state.showCreateTaskModal} />
                 <TaskDetailsModal show={this.state.showTaskDetailsModal} task={this.state.task} />
+                <DeleteTaskInfoModal show={this.state.showDeleteTaskModal} />
             </div>
         );
     }
