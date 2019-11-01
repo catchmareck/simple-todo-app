@@ -3,10 +3,6 @@ import './create-team.scss';
 
 class CreateTeam extends Component<any, any> {
 
-    constructor(props: any) {
-        super(props);
-    }
-
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
 
         return (

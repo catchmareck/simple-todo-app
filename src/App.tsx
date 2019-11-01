@@ -4,7 +4,6 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
-import logo from './logo.svg';
 import './App.scss';
 import {Navbar, Auth, Taskslists, CreateTeam, TeamSettings} from "./components";
 

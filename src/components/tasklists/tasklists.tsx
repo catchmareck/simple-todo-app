@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from "react-router-dom";
 import './tasklists.scss';
 import {
     CreateListModal,
@@ -76,7 +77,7 @@ class Taskslists extends Component<any, any> {
         return (
             <div id="tasklists" className="d-flex px-3">
                 <div className="row tasklists-header">
-                    <button>Edit team</button>
+                    <button><Link to='/team-settings'>Edit team</Link></button>
                 </div>
                 <div className="row tasklists-body d-flex">
                     <div className="tasklist">
