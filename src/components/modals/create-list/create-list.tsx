@@ -7,14 +7,16 @@ class CreateListModal extends Component<any, any> {
     
     private closing = false;
     private modal: any = null;
-    
-    constructor(props: { show: boolean }) {
+    private onClose: Function;
+
+    constructor(props: { show: boolean, onClose?: Function }) {
         super(props);
-        
+
         this.state = {
             show: props.show
         };
-        
+
+        this.onClose = props.onClose || (() => {});
         this.closeModal = this.closeModal.bind(this);
     }
 
@@ -33,6 +35,10 @@ class CreateListModal extends Component<any, any> {
             document.body.prepend(this.modal);
             ReactDOM.render(<ModalOverlay />, this.modal);
         }
+
+        if (!this.closing && this.modal && this.props.show === false) {
+            this.closeModal();
+        }
     }
     
     closeModal() {
@@ -44,6 +50,7 @@ class CreateListModal extends Component<any, any> {
             document.body.removeChild(this.modal);
             
             this.modal = null;
+            this.onClose.call(null);
             this.closing = false
         });
         

@@ -7,14 +7,18 @@ class TaskDetailsModal extends Component<any, any> {
 
     private closing = false;
     private modal: any = null;
+    private onClose: Function;
+    private onEditClick: Function;
 
-    constructor(props: { show: boolean, title: string }) {
+    constructor(props: { show: boolean, onClose?: Function, onEditClick?: Function }) {
         super(props);
 
         this.state = {
             show: props.show
         };
 
+        this.onClose = props.onClose || (() => {});
+        this.onEditClick = props.onEditClick || (() => {});
         this.closeModal = this.closeModal.bind(this);
     }
 
@@ -33,6 +37,10 @@ class TaskDetailsModal extends Component<any, any> {
             document.body.prepend(this.modal);
             ReactDOM.render(<ModalOverlay />, this.modal);
         }
+
+        if (!this.closing && this.modal && this.props.show === false) {
+            this.closeModal();
+        }
     }
 
     closeModal() {
@@ -44,6 +52,7 @@ class TaskDetailsModal extends Component<any, any> {
             document.body.removeChild(this.modal);
 
             this.modal = null;
+            this.onClose.call(null);
             this.closing = false
         });
 
@@ -55,7 +64,7 @@ class TaskDetailsModal extends Component<any, any> {
             <div id="task-details-modal" className={`modal ${this.state.show ? 'show' : ''}`}>
                 <div className="modal-header">
                     <p className="title">{this.props.task.title}</p>
-                    <button className="close" onClick={this.closeModal}>Edit</button>
+                    <button className="close" onClick={() => this.onEditClick()}>Edit</button>
                 </div>
                 <div className="modal-body">
                     

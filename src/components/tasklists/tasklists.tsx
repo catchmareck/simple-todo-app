@@ -43,7 +43,6 @@ class Taskslists extends Component<any, any> {
     showEditListModal() {
         
         this.setState({ showEditListModal: true });
-        this.showDeleteListModal();
     }
 
     showEditTaskModal() {
@@ -69,7 +68,19 @@ class Taskslists extends Component<any, any> {
     showTaskDetailsModal(task: any) {
         
         this.setState({ showTaskDetailsModal: true, task });
-        this.showEditTaskModal();
+    }
+    
+    resetModalsState() {
+
+        this.setState({
+            showCreateListModal: false,
+            showEditListModal: false,
+            showEditTaskModal: false,
+            showDeleteListModal: false,
+            showDeleteTaskModal: false,
+            showCreateTaskModal: false,
+            showTaskDetailsModal: false
+        });
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -107,13 +118,13 @@ class Taskslists extends Component<any, any> {
                         <button onClick={this.showCreateListModal}>Add +</button>
                     </div>
                 </div>
-                <CreateListModal show={this.state.showCreateListModal} />
-                <EditListModal show={this.state.showEditListModal} />
-                <DeleteListInfoModal show={this.state.showDeleteListModal}/>
-                <CreateTaskModal show={this.state.showCreateTaskModal} />
-                <TaskDetailsModal show={this.state.showTaskDetailsModal} task={this.state.task} />
-                <DeleteTaskInfoModal show={this.state.showDeleteTaskModal} />
-                <EditTaskModal show={this.state.showEditTaskModal} />
+                <CreateListModal show={this.state.showCreateListModal} onClose={this.resetModalsState.bind(this)} />
+                <EditListModal show={this.state.showEditListModal} onDeleteClick={this.showDeleteListModal}  onClose={this.resetModalsState.bind(this)} />
+                <CreateTaskModal show={this.state.showCreateTaskModal} onClose={this.resetModalsState.bind(this)} />
+                <TaskDetailsModal show={this.state.showTaskDetailsModal} task={this.state.task} onEditClick={this.showEditTaskModal} onClose={this.resetModalsState.bind(this)} />
+                <EditTaskModal show={this.state.showEditTaskModal} onDeleteClick={this.showDeleteTaskModal} onClose={this.resetModalsState.bind(this)} />
+                <DeleteTaskInfoModal show={this.state.showDeleteTaskModal} onClose={this.resetModalsState.bind(this)} />
+                <DeleteListInfoModal show={this.state.showDeleteListModal} onClose={this.resetModalsState.bind(this)} />
             </div>
         );
     }

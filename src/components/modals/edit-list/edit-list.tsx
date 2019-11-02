@@ -7,14 +7,18 @@ class EditListModal extends Component<any, any> {
     
     private closing = false;
     private modal: any = null;
+    private onClose: Function;
+    private onDeleteClick: Function;
 
-    constructor(props: { show: boolean }) {
+    constructor(props: { show: boolean, onClose?: Function, onDeleteClick?: Function }) {
         super(props);
 
         this.state = {
             show: props.show
         };
 
+        this.onClose = props.onClose || (() => {});
+        this.onDeleteClick = props.onDeleteClick || (() => {});
         this.closeModal = this.closeModal.bind(this);
     }
 
@@ -33,6 +37,10 @@ class EditListModal extends Component<any, any> {
             document.body.prepend(this.modal);
             ReactDOM.render(<ModalOverlay />, this.modal);
         }
+
+        if (!this.closing && this.modal && this.props.show === false) {
+            this.closeModal();
+        }
     }
 
     closeModal() {
@@ -44,6 +52,7 @@ class EditListModal extends Component<any, any> {
             document.body.removeChild(this.modal);
 
             this.modal = null;
+            this.onClose.call(null);
             this.closing = false
         });
 
@@ -55,7 +64,7 @@ class EditListModal extends Component<any, any> {
             <div id="edit-list-modal" className={`modal ${this.state.show ? 'show' : ''}`}>
                 <div className="modal-header">
                     <p className="title">Edit list</p>
-                    <button className="close delete" onClick={this.closeModal}>Delete</button>
+                    <button className="close delete" onClick={() => this.onDeleteClick()}>Delete</button>
                 </div>
                 <div className="modal-body">
                     <form className="form">
