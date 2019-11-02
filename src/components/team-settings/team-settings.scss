@@ -59,10 +59,10 @@
         tr {
           height: 2rem;
           border-bottom: 1px solid #bbbbbb;
-          
-          &:first-child {
-            background: #dadada;
-          }
+        }
+        
+        & thead tr:first-child {
+          background: #dadada;
         }
       }
       

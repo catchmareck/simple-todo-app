@@ -25,27 +25,31 @@ class TeamSettings extends Component<any, any> {
                     <div className="team-members-col">
                         <div className="row">
                             <table className="members">
-                                <tr>
-                                    <th>Member</th>
-                                    <th>Action</th>
-                                </tr>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>Delete</td>
-                                </tr>
-                                <tr>
-                                    <td>Rick Dalton</td>
-                                    <td>Delete</td>
-                                </tr>
-                                <tr>
-                                    <td>Vincent Vega</td>
-                                    <td>Delete</td>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Member</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John Doe</td>
+                                        <td>Delete</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rick Dalton</td>
+                                        <td>Delete</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vincent Vega</td>
+                                        <td>Delete</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div className="row d-flex">
-                            <select name="member" className="my-2">
-                                <option value="" selected disabled>Member</option>
+                            <select name="member" className="my-2" defaultValue="">
+                                <option value="" defaultChecked={true} disabled>Member</option>
                                 <option value="1">Vanessa Brickstone</option>
                                 <option value="2">Francesca Burrito</option>
                                 <option value="3">Monica Velucci</option>
