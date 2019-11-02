@@ -115,7 +115,8 @@ button {
 }
 
 .modal {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -125,9 +126,12 @@ button {
   border-radius: 3px;
   padding-left: .5rem;
   padding-right: .5rem;
+  transition: opacity 300ms;
   
   &.show {
     display: flex;
+    visibility: visible;
+    opacity: 1;
   }
   
   .close {
