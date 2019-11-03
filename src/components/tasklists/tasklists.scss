@@ -44,6 +44,9 @@
         text-align: center;
         
         .task {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
           width: 100%;
           padding: 1rem;
           box-sizing: border-box;
@@ -54,8 +57,27 @@
           transition: box-shadow 300ms;
           background: #f1f8ff;
           
+          span {
+            color: grey;
+            font-size: .75rem;
+            font-weight: 400;
+          }
+          
           &:hover {
             box-shadow: 1px 1px 4px 0 #9f9f9f;
+          }
+          
+          &.my-task {
+            border: 1px solid dimgrey;
+            font-weight: 500;
+          }
+          
+          &.overdue {
+            background: #fff1f1;
+          }
+          
+          &.done {
+            background: #f2fff1;
           }
         }
       }
