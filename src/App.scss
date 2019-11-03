@@ -8,6 +8,10 @@ html, body, #root {
   height: 100%;
 }
 
+body {
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
 }

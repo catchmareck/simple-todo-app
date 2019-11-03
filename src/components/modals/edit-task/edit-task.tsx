@@ -52,7 +52,7 @@ class EditTaskModal extends Component<any, any> {
                         </div>
 
                         <div className="row">
-                            <select name="assignees" defaultValue="">
+                            <select name="assignees" defaultValue="" multiple>
                                 <option value="" defaultChecked={true} disabled>Assignees</option>
                                 <option value="1">John Doe</option>
                                 <option value="2">Alie Bartner</option>

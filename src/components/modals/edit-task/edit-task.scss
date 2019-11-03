@@ -17,7 +17,7 @@
     box-sizing: border-box;
   }
 
-  textarea {
+  textarea, select[multiple] {
     height: 4rem;
   }
 }
