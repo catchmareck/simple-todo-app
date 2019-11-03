@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './auth.scss';
+import {Link} from "react-router-dom";
 
 class Auth extends Component<any, any> {
 
@@ -34,7 +35,7 @@ class Auth extends Component<any, any> {
                                 <input type="text" name="username" placeholder="Username" />
                                 <input type="password" name="password" placeholder="Password" />
                                 
-                                <button type="submit">Login</button>
+                                <button type="submit"><Link to='/create-team'>Login</Link></button>
                             </form>
                         </div>
                         <div id="register-tab" className="tab-pane">

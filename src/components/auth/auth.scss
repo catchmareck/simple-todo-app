@@ -6,6 +6,11 @@
   .tabs {
     max-width: 300px;
     flex-direction: column;
+
+    button a {
+      color: #f5f5f5;
+      text-decoration: none;
+    }
   }
   
   ul.tabs-list {

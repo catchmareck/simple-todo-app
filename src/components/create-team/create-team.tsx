@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './create-team.scss';
+import {Link} from "react-router-dom";
 
 class CreateTeam extends Component<any, any> {
 
@@ -12,7 +13,7 @@ class CreateTeam extends Component<any, any> {
                     <input type="text" name="name" placeholder="Team name" />
                     <textarea name="description" placeholder="Team description"></textarea>
 
-                    <button type="submit">Create</button>
+                    <button type="submit"><Link to='/tasklists'>Create</Link></button>
                 </form>
             </div>
         );
