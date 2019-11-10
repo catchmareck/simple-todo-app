@@ -25,7 +25,7 @@ class EditTaskModal extends Component<any, any> {
     }
 
     closeModal() {
-        
+
         this.modalsManager.closeModal();
     }
 
@@ -39,7 +39,7 @@ class EditTaskModal extends Component<any, any> {
                 </div>
                 <div className="modal-body">
                     <form className="form">
-                        
+
                         <div className="row">
                             <input type="text" name="title" placeholder="Task title"/>
                             <textarea name="description" placeholder="Task description"></textarea>
@@ -52,7 +52,7 @@ class EditTaskModal extends Component<any, any> {
                         </div>
 
                         <div className="row">
-                            <select name="assignees" defaultValue="" multiple>
+                            <select name="assignees" defaultValue={[]} multiple>
                                 <option value="" defaultChecked={true} disabled>Assignees</option>
                                 <option value="1">John Doe</option>
                                 <option value="2">Alie Bartner</option>

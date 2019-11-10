@@ -20,7 +20,7 @@ class TaskDetailsModal extends Component<any, any> {
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
-        
+
         this.modalsManager.componentDidUpdate();
     }
 
@@ -38,25 +38,25 @@ class TaskDetailsModal extends Component<any, any> {
                     <button className="close" onClick={() => this.onEditClick()}>Edit</button>
                 </div>
                 <div className="modal-body">
-                    
+
                     <div className="row">
                         <p className="task-description">On list: {this.props.task.listName}</p>
                     </div>
-                    
+
                     <div className="row d-flex details-middle-row">
                         <input type="text" placeholder="Deadline"/>
                         <input type="checkbox" id="is-done" />
                         <label htmlFor="is-done">Done?</label>
                     </div>
-                    
+
                     <div className="row">
-                        <select multiple>
+                        <select multiple defaultValue={[]}>
                             <option value="1">John Doe</option>
                             <option value="2">Alie Bartner</option>
                             <option value="3">Evan Hoggs</option>
                         </select>
                     </div>
-                    
+
                     <button onClick={this.closeModal}>Ok</button>
                 </div>
             </div>
