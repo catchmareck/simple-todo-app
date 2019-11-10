@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import './team-settings.scss';
-import {Link} from "react-router-dom";
 
 class TeamSettings extends Component<any, any> {
+
+    navigateTo(link: string) {
+
+        this.props.history.push(link);
+    }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
 
@@ -10,9 +14,9 @@ class TeamSettings extends Component<any, any> {
             <div id="team-settings" className="d-flex px-3">
                 <div className="row team-settings-header d-flex my-4">
                     <p className="title m-0">Team settings</p>
-                    <button><Link to='/tasklists'>Back to tasklists</Link></button>
+                    <button onClick={() => this.navigateTo('/tasklists')}>Back to tasklists</button>
                 </div>
-                
+
                 <div className="row team-settings-body d-flex my-4">
                     <div className="team-details-col">
                         <form id="team-details-form" className="form pt-0">

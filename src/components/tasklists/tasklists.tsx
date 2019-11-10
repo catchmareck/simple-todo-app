@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
 import './tasklists.scss';
 import {
     CreateListModal,
@@ -14,7 +13,7 @@ class Taskslists extends Component<any, any> {
 
     constructor(props: any) {
         super(props);
-        
+
         this.state = {
             showCreateListModal: false,
             showEditListModal: false,
@@ -25,7 +24,7 @@ class Taskslists extends Component<any, any> {
             showTaskDetailsModal: false,
             task: {}
         };
-        
+
         this.showCreateListModal = this.showCreateListModal.bind(this);
         this.showEditListModal = this.showEditListModal.bind(this);
         this.showEditTaskModal = this.showEditTaskModal.bind(this);
@@ -34,42 +33,47 @@ class Taskslists extends Component<any, any> {
         this.showCreateTaskModal = this.showCreateTaskModal.bind(this);
         this.showTaskDetailsModal = this.showTaskDetailsModal.bind(this);
     }
-    
+
+    navigateTo(link: string) {
+
+        this.props.history.push(link);
+    }
+
     showCreateListModal() {
-        
+
         this.setState({ showCreateListModal: true });
     }
-    
+
     showEditListModal() {
-        
+
         this.setState({ showEditListModal: true });
     }
 
     showEditTaskModal() {
-        
+
         this.setState({ showEditTaskModal: true });
     }
-    
+
     showDeleteListModal() {
-        
+
         this.setState({ showDeleteListModal: true });
     }
 
     showDeleteTaskModal() {
-        
+
         this.setState({ showDeleteTaskModal: true });
     }
-    
+
     showCreateTaskModal() {
-        
+
         this.setState({ showCreateTaskModal: true });
     }
 
     showTaskDetailsModal(task: any) {
-        
+
         this.setState({ showTaskDetailsModal: true, task });
     }
-    
+
     resetModalsState() {
 
         this.setState({
@@ -88,7 +92,7 @@ class Taskslists extends Component<any, any> {
         return (
             <div id="tasklists" className="d-flex px-3">
                 <div className="row tasklists-header">
-                    <button><Link to='/team-settings'>Edit team</Link></button>
+                    <button onClick={() => this.navigateTo('/team-settings')}>Edit team</button>
                 </div>
                 <div className="row tasklists-body d-flex">
                     <div className="tasklist">
