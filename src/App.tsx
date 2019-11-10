@@ -13,21 +13,11 @@ const App: React.FC = () => {
           <Navbar />
 
           <Switch>
-              <Route path="/auth">
-                  <Auth />
-              </Route>
-              <Route path="/tasklists">
-                  <Taskslists />
-              </Route>
-              <Route path="/create-team">
-                  <CreateTeam />
-              </Route>
-              <Route path="/team-settings">
-                  <TeamSettings />
-              </Route>
-              <Route path="/">
-                  <Auth />
-              </Route>
+              <Route path="/auth" component={Auth} />
+              <Route path="/tasklists" component={Taskslists} />
+              <Route path="/create-team" component={CreateTeam} />
+              <Route path="/team-settings" component={TeamSettings} />
+              <Route path="/" component={Auth} />
           </Switch>
       </Router>
   );

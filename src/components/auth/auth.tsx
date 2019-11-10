@@ -68,6 +68,10 @@ class Auth extends Component<any, any> {
             passwordOk: password
         };
         this.setState({ login });
+
+        if (valid) {
+            this.props.history.push('/create-team');
+        }
     }
 
     private validateLoginForm(): { valid: boolean, username: boolean, password: boolean } {
@@ -111,6 +115,10 @@ class Auth extends Component<any, any> {
             ...stateValidation
         };
         this.setState({ register });
+
+        if (valid) {
+            this.props.history.push('/create-team');
+        }
     }
 
     private validateRegisterForm() {
@@ -169,7 +177,7 @@ class Auth extends Component<any, any> {
                             <form id="login-form" className="form" onSubmit={this.handleLogin}>
                                 <input type="text" className={!this.state.login.validation.usernameOk ? "invalid-user-input" : ""} name="login-username" placeholder="Username" value={this.state.login.fields.username} onChange={this.handleChange} />
                                 <input type="password" className={!this.state.login.validation.passwordOk ? "invalid-user-input" : ""} name="login-password" placeholder="Password" value={this.state.login.fields.password} onChange={this.handleChange} />
-                                
+
                                 <button type="submit">Login</button>
                             </form>
                         </div>
@@ -185,7 +193,7 @@ class Auth extends Component<any, any> {
                                 <input type="password" className={!this.state.register.validation.repeatpasswordOk ? "invalid-user-input" : ""} name="register-repeatpassword" placeholder="Repeat password" value={this.state.register.fields.repeatpassword} onChange={this.handleChange} />
                                 <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.repeatpasswordOk ? "Passwords do not match" : ""}</p>
                                 <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.passwordOk ? "Password is too weak" : ""}</p>
-                                
+
                                 <button type="submit">Register</button>
                             </form>
                         </div>
