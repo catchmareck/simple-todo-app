@@ -1,13 +1,24 @@
-import React, { Component } from 'react';
+import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './auth.scss';
-import {Link} from "react-router-dom";
 
 class Auth extends Component<any, any> {
 
     constructor(props: any) {
         super(props);
         
+        this.state = {
+            loginValidationMsg: '',
+            loginInvalidUsername: false,
+            loginInvalidPassword: false,
+            login: {
+                username: '',
+                password: ''
+            }
+        };
+        
         this.activateTab = this.activateTab.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     activateTab(tabId: string, target: EventTarget) {
@@ -18,6 +29,43 @@ class Auth extends Component<any, any> {
         const tab: HTMLDivElement = document.getElementById(tabId) as HTMLDivElement;
         tab.classList.add('active');
         (target as Element).classList.add('active');
+    }
+    
+    handleLogin(e: FormEvent) {
+        
+        e.preventDefault();
+        
+        const { valid, username, password } = this.validateLoginForm();
+
+        this.setState({
+            loginValidationMsg: valid ? '' : 'Invalid username or password',
+            loginInvalidUsername: !username,
+            loginInvalidPassword: !password
+        });
+    }
+    
+    private validateLoginForm(): { valid: boolean, username: boolean, password: boolean } {
+
+        const { username, password } = this.state.login;
+
+        const invalidUsername = !username || !username.length;
+        const invalidPassword = !password || !password.length;
+
+        return {
+            valid: !(invalidUsername || invalidPassword),
+            username: !invalidUsername,
+            password: !invalidPassword
+        }
+    }
+    
+    handleChange(e: ChangeEvent) {
+        
+        const target: HTMLInputElement = e.target as HTMLInputElement;
+        const fieldName = target.name;
+        
+        const login = this.state.login;
+        login[fieldName] = target.value;
+        this.setState(login);
     }
     
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -31,11 +79,12 @@ class Auth extends Component<any, any> {
                     </ul>
                     <div className="tab-panes px-1">
                         <div id="login-tab" className="tab-pane active">
-                            <form id="login-form" className="form">
-                                <input type="text" name="username" placeholder="Username" />
-                                <input type="password" name="password" placeholder="Password" />
+                            <p className="text-center invalid-form-message m-0 mt-1">{this.state.loginValidationMsg}</p>
+                            <form id="login-form" className="form" onSubmit={this.handleLogin}>
+                                <input type="text" className={this.state.loginInvalidUsername ? "invalid-user-input" : ""} name="username" placeholder="Username" value={this.state.login.username} onChange={this.handleChange} />
+                                <input type="password" className={this.state.loginInvalidPassword ? "invalid-user-input" : ""} name="password" placeholder="Password" value={this.state.login.password} onChange={this.handleChange} />
                                 
-                                <button type="submit"><Link to='/create-team'>Login</Link></button>
+                                <button type="submit">Login</button>
                             </form>
                         </div>
                         <div id="register-tab" className="tab-pane">

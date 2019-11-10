@@ -21,6 +21,9 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+.mt-1 {
+  margin-top: .5rem!important;
+}
 .my-1 {
   margin-top: .5rem;
   margin-bottom: .5rem;
@@ -52,4 +55,14 @@
 }
 .d-flex {
   display: flex;
+}
+.text-center {
+  text-align: center;
+}
+.invalid-form-message {
+  color: $invalid-form-text-color;
+  font-size: .85rem;
+}
+.invalid-user-input {
+  border: 1px solid $invalid-form-text-color;
 }
