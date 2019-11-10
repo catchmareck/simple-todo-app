@@ -38,3 +38,12 @@ body {
 .navbar-top {
   margin-top: -60px;
 }
+
+.invalid-form-message {
+  color: $invalid-form-text-color;
+  font-size: .85rem;
+}
+
+.invalid-user-input {
+  border: 1px solid $invalid-form-text-color;
+}
