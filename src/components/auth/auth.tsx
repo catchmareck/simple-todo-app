@@ -5,7 +5,7 @@ class Auth extends Component<any, any> {
 
     constructor(props: any) {
         super(props);
-        
+
         this.state = {
             login: {
                 fields: {
@@ -17,28 +17,48 @@ class Auth extends Component<any, any> {
                     usernameOk: true,
                     passwordOk: true
                 }
+            },
+            register: {
+                fields: {
+                    username: '',
+                    firstname: '',
+                    lastname: '',
+                    email: '',
+                    password: '',
+                    repeatpassword: ''
+                },
+                validation: {
+                    message: '',
+                    usernameOk: true,
+                    firstnameOk: true,
+                    lastnameOk: true,
+                    emailOk: true,
+                    passwordOk: true,
+                    repeatpasswordOk: true
+                }
             }
         };
-        
+
         this.activateTab = this.activateTab.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleRegister = this.handleRegister.bind(this);
     }
 
     activateTab(tabId: string, target: EventTarget) {
-        
+
         document.querySelectorAll('.tab-pane.active').forEach((tab: Element) => tab.classList.remove('active'));
         document.querySelectorAll('.tab-button a.active').forEach((btn: Element) => btn.classList.remove('active'));
-        
+
         const tab: HTMLDivElement = document.getElementById(tabId) as HTMLDivElement;
         tab.classList.add('active');
         (target as Element).classList.add('active');
     }
-    
+
     handleLogin(e: FormEvent) {
-        
+
         e.preventDefault();
-        
+
         const { valid, username, password } = this.validateLoginForm();
 
         const { login } = this.state;
@@ -49,13 +69,13 @@ class Auth extends Component<any, any> {
         };
         this.setState({ login });
     }
-    
+
     private validateLoginForm(): { valid: boolean, username: boolean, password: boolean } {
 
         const { username, password } = this.state.login.fields;
 
-        const invalidUsername = !username || !username.length;
-        const invalidPassword = !password || !password.length;
+        const invalidUsername = !this.requiredFieldValid(username);
+        const invalidPassword = !this.requiredFieldValid(password);
 
         return {
             valid: !(invalidUsername || invalidPassword),
@@ -63,17 +83,77 @@ class Auth extends Component<any, any> {
             password: !invalidPassword
         }
     }
-    
+
     handleChange(e: ChangeEvent) {
-        
+
         const target: HTMLInputElement = e.target as HTMLInputElement;
-        const fieldName = target.name;
-        
-        const { login } = this.state;
-        login.fields[fieldName] = target.value;
-        this.setState({ login });
+        const [formType, fieldName] = target.name.split('-');
+
+        const state = this.state[formType];
+        state.fields[fieldName] = target.value;
+        this.setState({ [formType]: state });
     }
-    
+
+    handleRegister(e: FormEvent) {
+
+        e.preventDefault();
+
+        const { valid, ...fields } = this.validateRegisterForm();
+
+        const stateValidation = Object.keys(fields).reduce((res: any, curr: string) => {
+            res[`${curr}Ok`] = (fields as any)[curr];
+            return res;
+        }, {});
+
+        const { register } = this.state;
+        register.validation = {
+            message: valid ? '' : 'Please fill all required values correctly',
+            ...stateValidation
+        };
+        this.setState({ register });
+    }
+
+    private validateRegisterForm() {
+
+        const { username, firstname, lastname, email, password, repeatpassword } = this.state.register.fields;
+
+        const validation = {
+            username: this.requiredFieldValid(username),
+            firstname: this.requiredFieldValid(firstname),
+            lastname: this.requiredFieldValid(lastname),
+            email: this.emailFieldValid(email),
+            password: this.passwordFieldValid(password),
+            repeatpassword: this.repeatPasswordFieldValid(repeatpassword)
+        };
+
+        return {
+            valid: !Object.values(validation).includes(false),
+            ...validation
+        }
+    }
+
+    private requiredFieldValid(field: string): boolean {
+
+        return Boolean(field) && field.length > 0;
+    }
+
+    private emailFieldValid(email: string): boolean {
+
+        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+    }
+
+    private passwordFieldValid(password: string): boolean {
+
+        const strengthRequirements = [/[a-z]/, /[A-Z]/, /\d/, /\W/];
+        const weak = strengthRequirements.map((regex) => regex.test(password)).includes(false);
+        return password.length >= 8 && !weak;
+    }
+
+    private repeatPasswordFieldValid(repeatpassword: string): boolean {
+
+        return repeatpassword === this.state.register.fields.password;
+    }
+
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
 
         return (
@@ -87,20 +167,24 @@ class Auth extends Component<any, any> {
                         <div id="login-tab" className="tab-pane active">
                             <p className="text-center invalid-form-message m-0 mt-1">{this.state.login.validation.message}</p>
                             <form id="login-form" className="form" onSubmit={this.handleLogin}>
-                                <input type="text" className={!this.state.login.validation.usernameOk ? "invalid-user-input" : ""} name="username" placeholder="Username" value={this.state.login.fields.username} onChange={this.handleChange} />
-                                <input type="password" className={!this.state.login.validation.passwordOk ? "invalid-user-input" : ""} name="password" placeholder="Password" value={this.state.login.fields.password} onChange={this.handleChange} />
+                                <input type="text" className={!this.state.login.validation.usernameOk ? "invalid-user-input" : ""} name="login-username" placeholder="Username" value={this.state.login.fields.username} onChange={this.handleChange} />
+                                <input type="password" className={!this.state.login.validation.passwordOk ? "invalid-user-input" : ""} name="login-password" placeholder="Password" value={this.state.login.fields.password} onChange={this.handleChange} />
                                 
                                 <button type="submit">Login</button>
                             </form>
                         </div>
                         <div id="register-tab" className="tab-pane">
-                            <form id="register-form" className="form">
-                                <input type="text" name="username" placeholder="Username" />
-                                <input type="text" name="firstname" placeholder="First name" />
-                                <input type="text" name="lastname" placeholder="Last name" />
-                                <input type="email" name="email" placeholder="Email" />
-                                <input type="password" name="password" placeholder="Password" />
-                                <input type="password" name="repeatpassword" placeholder="Repeat password" />
+                            <p className="text-center invalid-form-message m-0 mt-1">{this.state.register.validation.message}</p>
+                            <form id="register-form" className="form" onSubmit={this.handleRegister}>
+                                <input type="text" className={!this.state.register.validation.usernameOk ? "invalid-user-input" : ""} name="register-username" placeholder="Username" value={this.state.register.fields.username} onChange={this.handleChange} />
+                                <input type="text" className={!this.state.register.validation.firstnameOk ? "invalid-user-input" : ""} name="register-firstname" placeholder="First name" value={this.state.register.fields.firstname} onChange={this.handleChange} />
+                                <input type="text" className={!this.state.register.validation.lastnameOk ? "invalid-user-input" : ""} name="register-lastname" placeholder="Last name" value={this.state.register.fields.lastname} onChange={this.handleChange} />
+                                <input type="email" className={!this.state.register.validation.emailOk ? "invalid-user-input" : ""} name="register-email" placeholder="Email" value={this.state.register.fields.email} onChange={this.handleChange} />
+                                <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.emailOk ? "That doesn't look like an email" : ""}</p>
+                                <input type="password" className={!this.state.register.validation.passwordOk ? "invalid-user-input" : ""} name="register-password" placeholder="Password" value={this.state.register.fields.password} onChange={this.handleChange} />
+                                <input type="password" className={!this.state.register.validation.repeatpasswordOk ? "invalid-user-input" : ""} name="register-repeatpassword" placeholder="Repeat password" value={this.state.register.fields.repeatpassword} onChange={this.handleChange} />
+                                <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.repeatpasswordOk ? "Passwords do not match" : ""}</p>
+                                <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.passwordOk ? "Password is too weak" : ""}</p>
                                 
                                 <button type="submit">Register</button>
                             </form>
