@@ -3,18 +3,18 @@ import ReactDOM from "react-dom";
 import ModalOverlay from "../components/modals/modal-overlay";
 
 class ModalsManager {
-    
+
     private closing = false;
     private modal: any = null;
     private onClose: Function;
-    
+
     constructor(private modalComponent: Component<any, any>) {
 
         this.onClose = modalComponent.props.onClose || (() => {});
     }
-    
+
     componentDidUpdate() {
-        
+
         if (!this.closing && this.modalComponent.state.show !== this.modalComponent.props.show) {
             this.modalComponent.setState({ show: this.modalComponent.props.show });
         }

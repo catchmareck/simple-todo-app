@@ -3,7 +3,7 @@ import './create-task.scss';
 import ModalsManager from "../../../services/modals-manager";
 
 class CreateTaskModal extends Component<any, any> {
-    
+
     private modalsManager: ModalsManager;
 
     constructor(props: { show: boolean, onClose?: Function }) {

@@ -23,7 +23,7 @@ class DeleteTaskInfoModal extends Component<any, any> {
     }
 
     closeModal() {
-        
+
         this.modalsManager.closeModal();
     }
 

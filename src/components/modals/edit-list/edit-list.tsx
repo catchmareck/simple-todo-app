@@ -3,7 +3,7 @@ import './edit-list.scss';
 import ModalsManager from "../../../services/modals-manager";
 
 class EditListModal extends Component<any, any> {
-    
+
     private modalsManager: ModalsManager;
     private onDeleteClick: Function;
 

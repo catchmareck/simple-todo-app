@@ -3,7 +3,7 @@ import './create-list.scss';
 import ModalsManager from "../../../services/modals-manager";
 
 class CreateListModal extends Component<any, any> {
-    
+
     private modalsManager: ModalsManager;
 
     constructor(props: { show: boolean, onClose?: Function }) {
@@ -21,9 +21,9 @@ class CreateListModal extends Component<any, any> {
 
         this.modalsManager.componentDidUpdate();
     }
-    
+
     closeModal() {
-        
+
         this.modalsManager.closeModal();
     }
 
