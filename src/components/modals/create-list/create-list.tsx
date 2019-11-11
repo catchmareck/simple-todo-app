@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './create-list.scss';
 import ModalsManager from "../../../services/modals-manager";
 
@@ -10,11 +10,68 @@ class CreateListModal extends Component<any, any> {
         super(props);
 
         this.state = {
-            show: props.show
+            show: props.show,
+            create: {
+                fields: {
+                    name: ''
+                },
+                validation: {
+                    message: '',
+                    nameOk: true
+                }
+            }
         };
 
         this.modalsManager = new ModalsManager(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e: ChangeEvent) {
+
+        const target: HTMLInputElement = e.target as HTMLInputElement;
+        const [formType, fieldName] = target.name.split('-');
+
+        const state = this.state[formType];
+        state.fields[fieldName] = target.value;
+        this.setState({ [formType]: state });
+    }
+
+    handleCreate(e: FormEvent) {
+
+        e.preventDefault();
+
+        const { valid, name } = this.validateCreateForm();
+
+        const { create } = this.state;
+        create.validation = {
+            message: valid ? '' : 'Please fill all required fields correctly',
+            nameOk: name,
+            descriptionOk: true
+        };
+        this.setState({ create });
+
+        if (valid) {
+            this.closeModal();
+        }
+    }
+
+    private validateCreateForm(): { valid: boolean, name: boolean } {
+
+        const { name } = this.state.create.fields;
+
+        const validName = this.requiredFieldValid(name);
+
+        return {
+            valid: validName,
+            name: validName
+        }
+    }
+
+    private requiredFieldValid(field: string): boolean {
+
+        return Boolean(field) && field.length > 0;
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
@@ -36,8 +93,9 @@ class CreateListModal extends Component<any, any> {
                     <i className="close" onClick={this.closeModal}>&times;</i>
                 </div>
                 <div className="modal-body">
-                    <form className="form">
-                        <input type="text" name="listname" placeholder="List name"/>
+                    <form className="form" onSubmit={this.handleCreate}>
+                        <input type="text" className={!this.state.create.validation.nameOk ? "invalid-user-input" : ""} name="create-name" placeholder="List name" value={this.state.create.fields.name} onChange={this.handleChange} />
+                        <p className="text-center invalid-form-message m-0 mt-1">{!this.state.create.validation.nameOk ? "This field is required" : ""}</p>
 
                         <button type="submit">Create</button>
                     </form>
