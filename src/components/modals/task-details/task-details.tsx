@@ -44,13 +44,13 @@ class TaskDetailsModal extends Component<any, any> {
                     </div>
 
                     <div className="row d-flex details-middle-row">
-                        <input type="text" placeholder="Deadline"/>
-                        <input type="checkbox" id="is-done" />
+                        <input type="date" defaultValue={this.props.task.deadline} placeholder="Deadline" readOnly={true} aria-readonly={true} />
+                        <input type="checkbox" id="is-done" disabled={true} aria-readonly={true} />
                         <label htmlFor="is-done">Done?</label>
                     </div>
 
                     <div className="row">
-                        <select multiple defaultValue={[]}>
+                        <select multiple defaultValue={["2"]} disabled={true}>
                             <option value="1">John Doe</option>
                             <option value="2">Alie Bartner</option>
                             <option value="3">Evan Hoggs</option>

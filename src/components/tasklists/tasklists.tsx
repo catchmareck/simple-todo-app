@@ -98,9 +98,9 @@ class Taskslists extends Component<any, any> {
                     <div className="tasklist">
                         <p className="tasklist-header"><a onClick={this.showEditListModal}>Todo</a></p>
                         <div className="tasklist-body">
-                            <div className="task" onClick={() => this.showTaskDetailsModal({title: 'Task 1', desc: 'Lorem ipsum dolor sit amet', listName: 'Todo'})}>Task title</div>
-                            <div className="task my-task" onClick={() => this.showTaskDetailsModal({title: 'Task 2', desc: 'Lorem ipsum dolor sit amet', listName: 'Todo'})}>Task title <span>assigned to you</span></div>
-                            <div className="task" onClick={() => this.showTaskDetailsModal({title: 'Task 3', desc: 'Lorem ipsum dolor sit amet', listName: 'Todo'})}>Task title</div>
+                            <div className="task" onClick={() => this.showTaskDetailsModal({title: 'Task 1', desc: 'Lorem ipsum dolor sit amet', listName: 'Todo', deadline: '2019-12-12'})}>Task title</div>
+                            <div className="task my-task" onClick={() => this.showTaskDetailsModal({title: 'Task 2', desc: 'Lorem ipsum dolor sit amet', listName: 'Todo', deadline: '2019-12-12'})}>Task title <span>assigned to you</span></div>
+                            <div className="task" onClick={() => this.showTaskDetailsModal({title: 'Task 3', desc: 'Lorem ipsum dolor sit amet', listName: 'Todo', deadline: '2019-12-12'})}>Task title</div>
                             <button onClick={this.showCreateTaskModal}>Add +</button>
                         </div>
                     </div>
@@ -113,8 +113,8 @@ class Taskslists extends Component<any, any> {
                     <div className="tasklist">
                         <p className="tasklist-header"><a onClick={this.showEditListModal}>Current sprint</a></p>
                         <div className="tasklist-body">
-                            <div className="task done" onClick={() => this.showTaskDetailsModal({title: 'Task 4', desc: 'Lorem ipsum dolor sit amet', listName: 'Current sprint'})}>Task title</div>
-                            <div className="task my-task overdue" onClick={() => this.showTaskDetailsModal({title: 'Task 5', desc: 'Lorem ipsum dolor sit amet', listName: 'Current sprint'})}>Task title <span>assigned to you</span></div>
+                            <div className="task done" onClick={() => this.showTaskDetailsModal({title: 'Task 4', desc: 'Lorem ipsum dolor sit amet', listName: 'Current sprint', deadline: '2019-12-12'})}>Task title</div>
+                            <div className="task my-task overdue" onClick={() => this.showTaskDetailsModal({title: 'Task 5', desc: 'Lorem ipsum dolor sit amet', listName: 'Current sprint', deadline: '2019-12-12'})}>Task title <span>assigned to you</span></div>
                             <button onClick={this.showCreateTaskModal}>Add +</button>
                         </div>
                     </div>
