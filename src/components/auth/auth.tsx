@@ -1,7 +1,10 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './auth.scss';
+import AuthManager from "../../services/auth-manager";
 
 class Auth extends Component<any, any> {
+
+    private authManager = new AuthManager();
 
     constructor(props: any) {
         super(props);
@@ -39,10 +42,26 @@ class Auth extends Component<any, any> {
             }
         };
 
+        this.authManager.observe(this);
+
+        this.login = this.login.bind(this);
+
         this.activateTab = this.activateTab.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
+    }
+
+    update(action: string) {
+
+        if (action === 'logout') {
+
+            this.props.history.push('/auth');
+        }
+    }
+
+    login() {
+        this.authManager.login();
     }
 
     activateTab(tabId: string, target: EventTarget) {
@@ -70,6 +89,7 @@ class Auth extends Component<any, any> {
         this.setState({ login });
 
         if (valid) {
+            this.login();
             this.props.history.push('/create-team');
         }
     }
@@ -117,6 +137,7 @@ class Auth extends Component<any, any> {
         this.setState({ register });
 
         if (valid) {
+            this.login();
             this.props.history.push('/create-team');
         }
     }
