@@ -195,7 +195,7 @@ class Auth extends Component<any, any> {
                     <div className="tab-panes px-1">
                         <div id="login-tab" className="tab-pane active">
                             <p className="text-center invalid-form-message m-0 mt-1">{this.state.login.validation.message}</p>
-                            <form id="login-form" className="form" onSubmit={this.handleLogin}>
+                            <form id="login-form" className="form" onSubmit={this.handleLogin} noValidate={true}>
                                 <input type="text" className={!this.state.login.validation.usernameOk ? "invalid-user-input" : ""} name="login-username" placeholder="Username" value={this.state.login.fields.username} onChange={this.handleChange} />
                                 <input type="password" className={!this.state.login.validation.passwordOk ? "invalid-user-input" : ""} name="login-password" placeholder="Password" value={this.state.login.fields.password} onChange={this.handleChange} />
 
@@ -204,7 +204,7 @@ class Auth extends Component<any, any> {
                         </div>
                         <div id="register-tab" className="tab-pane">
                             <p className="text-center invalid-form-message m-0 mt-1">{this.state.register.validation.message}</p>
-                            <form id="register-form" className="form" onSubmit={this.handleRegister}>
+                            <form id="register-form" className="form" onSubmit={this.handleRegister} noValidate={true}>
                                 <input type="text" className={!this.state.register.validation.usernameOk ? "invalid-user-input" : ""} name="register-username" placeholder="Username" value={this.state.register.fields.username} onChange={this.handleChange} />
                                 <input type="text" className={!this.state.register.validation.firstnameOk ? "invalid-user-input" : ""} name="register-firstname" placeholder="First name" value={this.state.register.fields.firstname} onChange={this.handleChange} />
                                 <input type="text" className={!this.state.register.validation.lastnameOk ? "invalid-user-input" : ""} name="register-lastname" placeholder="Last name" value={this.state.register.fields.lastname} onChange={this.handleChange} />
@@ -213,7 +213,7 @@ class Auth extends Component<any, any> {
                                 <input type="password" className={!this.state.register.validation.passwordOk ? "invalid-user-input" : ""} name="register-password" placeholder="Password" value={this.state.register.fields.password} onChange={this.handleChange} />
                                 <input type="password" className={!this.state.register.validation.repeatpasswordOk ? "invalid-user-input" : ""} name="register-repeatpassword" placeholder="Repeat password" value={this.state.register.fields.repeatpassword} onChange={this.handleChange} />
                                 <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.repeatpasswordOk ? "Passwords do not match" : ""}</p>
-                                <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.passwordOk ? "Password is too weak" : ""}</p>
+                                <p className="text-center invalid-form-message m-0 mt-1">{!this.state.register.validation.passwordOk ? "Password should contain big and small letters, numbers, special characters and has to be of min length 8" : ""}</p>
 
                                 <button type="submit">Register</button>
                             </form>
