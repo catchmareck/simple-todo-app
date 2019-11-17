@@ -1,6 +1,7 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './create-task.scss';
 import ModalsManager from "../../../services/modals-manager";
+import ValidationManager from "../../../services/validation-manager";
 
 class CreateTaskModal extends Component<any, any> {
 
@@ -97,20 +98,12 @@ class CreateTaskModal extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.trim().length > 0;
+        return ValidationManager.requiredFieldValid(field);
     }
 
     private dateFieldValid(field: string): boolean {
 
-        const selectedDate = new Date(field);
-        const dayValid = selectedDate.getDate() <= 31;
-        const monthValid = selectedDate.getMonth() <= 11;
-        const yearValid = selectedDate.getFullYear() <= 9999;
-
-        const now = Date.now();
-        const selected = Date.parse(field);
-
-        return Boolean(field) && selected >= now && dayValid && monthValid && yearValid;
+        return ValidationManager.dateFieldValid(field);
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {

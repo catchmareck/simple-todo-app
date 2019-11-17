@@ -1,5 +1,6 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './create-team.scss';
+import ValidationManager from "../../services/validation-manager";
 
 class CreateTeam extends Component<any, any> {
 
@@ -67,7 +68,7 @@ class CreateTeam extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.trim().length > 0;
+        return ValidationManager.requiredFieldValid(field);
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {

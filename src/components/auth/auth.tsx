@@ -1,6 +1,7 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './auth.scss';
 import AuthManager from "../../services/auth-manager";
+import ValidationManager from "../../services/validation-manager";
 
 class Auth extends Component<any, any> {
 
@@ -163,19 +164,17 @@ class Auth extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.trim().length > 0;
+        return ValidationManager.requiredFieldValid(field);
     }
 
     private emailFieldValid(email: string): boolean {
 
-        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+        return ValidationManager.emailFieldValid(email);
     }
 
     private passwordFieldValid(password: string): boolean {
 
-        const strengthRequirements = [/[a-z]/, /[A-Z]/, /\d/, /\W/];
-        const weak = strengthRequirements.map((regex) => regex.test(password)).includes(false);
-        return password.length >= 8 && !weak;
+        return ValidationManager.passwordFieldValid(password);
     }
 
     private repeatPasswordFieldValid(repeatpassword: string): boolean {

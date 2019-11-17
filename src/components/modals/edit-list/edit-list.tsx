@@ -1,6 +1,7 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './edit-list.scss';
 import ModalsManager from "../../../services/modals-manager";
+import ValidationManager from "../../../services/validation-manager";
 
 class EditListModal extends Component<any, any> {
 
@@ -73,7 +74,7 @@ class EditListModal extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.trim().length > 0;
+        return ValidationManager.requiredFieldValid(field);
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {

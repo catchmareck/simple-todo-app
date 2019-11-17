@@ -1,5 +1,6 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './team-settings.scss';
+import ValidationManager from "../../services/validation-manager";
 
 class TeamSettings extends Component<any, any> {
 
@@ -63,7 +64,7 @@ class TeamSettings extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.trim().length > 0;
+        return ValidationManager.requiredFieldValid(field);
     }
 
     navigateTo(link: string) {
