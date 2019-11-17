@@ -163,7 +163,7 @@ class Auth extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.length > 0;
+        return Boolean(field) && field.trim().length > 0;
     }
 
     private emailFieldValid(email: string): boolean {

@@ -67,7 +67,7 @@ class CreateTeam extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.length > 0;
+        return Boolean(field) && field.trim().length > 0;
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {

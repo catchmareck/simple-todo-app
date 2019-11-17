@@ -97,15 +97,20 @@ class CreateTaskModal extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.length > 0;
+        return Boolean(field) && field.trim().length > 0;
     }
 
     private dateFieldValid(field: string): boolean {
 
+        const selectedDate = new Date(field);
+        const dayValid = selectedDate.getDate() <= 31;
+        const monthValid = selectedDate.getMonth() <= 11;
+        const yearValid = selectedDate.getFullYear() <= 9999;
+
         const now = Date.now();
         const selected = Date.parse(field);
 
-        return Boolean(field) && selected >= now;
+        return Boolean(field) && selected >= now && dayValid && monthValid && yearValid;
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
@@ -132,7 +137,7 @@ class CreateTaskModal extends Component<any, any> {
                         <input type="text" className={!this.state.create.validation.titleOk ? "invalid-user-input" : ""} name="create-title" placeholder="Task title" value={this.state.create.fields.name} onChange={this.handleChange} />
                         <textarea className={!this.state.create.validation.descriptionOk ? "invalid-user-input" : ""} name="create-description" placeholder="Task description" value={this.state.create.fields.description} onChange={this.handleChange} ></textarea>
                         <input type="date" className={!this.state.create.validation.deadlineOk ? "invalid-user-input" : ""} name="create-deadline" placeholder="Deadline" value={this.state.create.fields.deadline} onChange={this.handleChange} />
-                        <p className="text-center invalid-form-message m-0 mt-1">{!this.state.create.validation.deadlineOk ? "Deadline should be later than today" : ""}</p>
+                        <p className="text-center invalid-form-message m-0 mt-1">{!this.state.create.validation.deadlineOk ? "Deadline should be later than today and have format of DD-MM-YYYY" : ""}</p>
                         <select multiple className={!this.state.create.validation.assigneesOk ? "invalid-user-input" : ""} name="create-assignees" value={this.state.create.fields.assignees} onChange={this.handleSelectChange}>
                             <option value="1">John Doe</option>
                             <option value="2">Alie Bartner</option>

@@ -105,15 +105,20 @@ class EditTaskModal extends Component<any, any> {
 
     private requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.length > 0;
+        return Boolean(field) && field.trim().length > 0;
     }
 
     private dateFieldValid(field: string): boolean {
 
+        const selectedDate = new Date(field);
+        const dayValid = selectedDate.getDate() <= 31;
+        const monthValid = selectedDate.getMonth() <= 11;
+        const yearValid = selectedDate.getFullYear() <= 9999;
+
         const now = Date.now();
         const selected = Date.parse(field);
 
-        return Boolean(field) && selected >= now;
+        return Boolean(field) && selected >= now && dayValid && monthValid && yearValid;
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
@@ -151,7 +156,7 @@ class EditTaskModal extends Component<any, any> {
                         </div>
 
                         <div className="row d-flex">
-                            <p className="text-center invalid-form-message m-0 mt-1 w-100">{!this.state.edit.validation.deadlineOk ? "Deadline should be later than today" : ""}</p>
+                            <p className="text-center invalid-form-message m-0 mt-1 w-100">{!this.state.edit.validation.deadlineOk ? "Deadline should be later than today and have format of DD-MM-YYYY" : ""}</p>
                         </div>
 
                         <div className="row">
