@@ -3,6 +3,8 @@ import env from "./env";
 
 class AuthManager {
 
+    public static currentUser: any = {};
+
     private static observers: any[] = [];
 
     observe(observer: any) {
@@ -27,6 +29,11 @@ class AuthManager {
 
         return Promise.resolve()
             .then(() => {
+                AuthManager.currentUser = {
+                    userId: 1,
+                    displayName: 'Ala Makota TOOD'
+                };
+
                 localStorage.setItem('loggedIn', 'true');
                 this.notify('login');
             });

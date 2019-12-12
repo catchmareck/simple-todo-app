@@ -1,6 +1,9 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
+import axios from 'axios';
 import './create-team.scss';
 import ValidationManager from "../../services/validation-manager";
+import env from "../../services/env";
+import AuthManager from "../../services/auth-manager";
 
 class CreateTeam extends Component<any, any> {
 
@@ -50,7 +53,8 @@ class CreateTeam extends Component<any, any> {
         this.setState({ create });
 
         if (valid) {
-            this.props.history.push('/tasklists');
+            this.create()
+                .then(() => this.props.history.push('/tasklists'));
         }
     }
 
@@ -64,6 +68,13 @@ class CreateTeam extends Component<any, any> {
             valid: validName,
             name: validName
         }
+    }
+
+    private create() {
+
+        const { name: teamName, description: teamDescription } = this.state.create.fields;
+        const adminId = AuthManager.currentUser.userId;
+        return axios.post(`${env.apiUrl}/teams/create`, { teamName, teamDescription, adminId });
     }
 
     private requiredFieldValid(field: string): boolean {
