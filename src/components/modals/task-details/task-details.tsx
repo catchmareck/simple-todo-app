@@ -34,7 +34,7 @@ class TaskDetailsModal extends Component<any, any> {
         return (
             <div id="task-details-modal" className={`modal ${this.state.show ? 'show' : ''}`}>
                 <div className="modal-header">
-                    <p className="title">{this.props.task.title}</p>
+                    <p className="title">{this.props.task.taskTitle}</p>
                     <button className="close" onClick={() => this.onEditClick()}>Edit</button>
                 </div>
                 <div className="modal-body">

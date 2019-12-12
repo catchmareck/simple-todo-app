@@ -30,8 +30,16 @@ class AuthManager {
         return Promise.resolve()
             .then(() => {
                 AuthManager.currentUser = {
-                    userId: 1,
-                    displayName: 'Ala Makota TOOD'
+                    "userId": 1,
+                    "username": "alamakota",
+                    "userEmail": "ala@mako.ta",
+                    "displayName": "Ala Makota",
+                    "firstName": "Ala",
+                    "lastName": "Makota",
+                    "active": true,
+                    "createdAt": "2019-12-12T22:47:41.000Z",
+                    "updatedAt": "2019-12-12T22:47:46.000Z",
+                    "team_id": 1
                 };
 
                 localStorage.setItem('loggedIn', 'true');

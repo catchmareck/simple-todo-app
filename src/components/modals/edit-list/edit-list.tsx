@@ -1,21 +1,25 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
+import axios from 'axios';
+import env from "../../../services/env";
 import './edit-list.scss';
 import ModalsManager from "../../../services/modals-manager";
 import ValidationManager from "../../../services/validation-manager";
+import AuthManager from "../../../services/auth-manager";
 
 class EditListModal extends Component<any, any> {
 
     private modalsManager: ModalsManager;
     private onDeleteClick: Function;
 
-    constructor(props: { show: boolean, onClose?: Function, onDeleteClick?: Function }) {
+    constructor(props: { show: boolean, tasklist: any, onClose?: Function, onDeleteClick?: Function, onSuccess?: Function }) {
         super(props);
 
+        console.log(props.tasklist);
         this.state = {
             show: props.show,
             edit: {
                 fields: {
-                    name: ''
+                    name: props.tasklist.listName || ''
                 },
                 validation: {
                     message: '',
@@ -27,7 +31,7 @@ class EditListModal extends Component<any, any> {
         this.modalsManager = new ModalsManager(this);
         this.onDeleteClick = props.onDeleteClick || (() => {});
         this.closeModal = this.closeModal.bind(this);
-        this.handleCreate = this.handleCreate.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -41,7 +45,7 @@ class EditListModal extends Component<any, any> {
         this.setState({ [formType]: state });
     }
 
-    handleCreate(e: FormEvent) {
+    handleEdit(e: FormEvent) {
 
         e.preventDefault();
 
@@ -56,7 +60,9 @@ class EditListModal extends Component<any, any> {
         this.setState({ edit });
 
         if (valid) {
-            this.closeModal();
+            this.editList()
+                .then(() => (this.props.onSuccess || (() => {}))())
+                .then(() => this.closeModal());
         }
     }
 
@@ -70,6 +76,12 @@ class EditListModal extends Component<any, any> {
             valid: validName,
             name: validName
         }
+    }
+
+    private editList() {
+
+        const { name: listName } = this.state.edit.fields;
+        return axios.put(`${env.apiUrl}/teams/${AuthManager.currentUser.team_id}/tasklists/update/${this.props.tasklist.listId}`, { listName });
     }
 
     private requiredFieldValid(field: string): boolean {
@@ -93,10 +105,10 @@ class EditListModal extends Component<any, any> {
             <div id="edit-list-modal" className={`modal ${this.state.show ? 'show' : ''}`}>
                 <div className="modal-header">
                     <p className="title">Edit list</p>
-                    <button className="close delete" onClick={() => this.onDeleteClick()}>Delete</button>
+                    <button className="close delete" onClick={() => this.onDeleteClick(this.props.tasklist)}>Delete</button>
                 </div>
                 <div className="modal-body">
-                    <form className="form" onSubmit={this.handleCreate}>
+                    <form className="form" onSubmit={this.handleEdit}>
                         <input type="text" className={!this.state.edit.validation.nameOk ? "invalid-user-input" : ""} name="edit-name" placeholder="List name" value={this.state.edit.fields.name} onChange={this.handleChange} />
                         <p className="text-center invalid-form-message m-0 mt-1">{!this.state.edit.validation.nameOk ? "This field is required" : ""}</p>
 

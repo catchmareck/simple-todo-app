@@ -1,13 +1,16 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
+import axios from 'axios';
 import './create-list.scss';
 import ModalsManager from "../../../services/modals-manager";
 import ValidationManager from "../../../services/validation-manager";
+import env from "../../../services/env";
+import AuthManager from "../../../services/auth-manager";
 
 class CreateListModal extends Component<any, any> {
 
     private modalsManager: ModalsManager;
 
-    constructor(props: { show: boolean, onClose?: Function }) {
+    constructor(props: { show: boolean, onClose?: Function, onSuccess?: Function }) {
         super(props);
 
         this.state = {
@@ -54,7 +57,9 @@ class CreateListModal extends Component<any, any> {
         this.setState({ create });
 
         if (valid) {
-            this.closeModal();
+            this.createList()
+                .then(() => this.props.onSuccess())
+                .then(() => this.closeModal());
         }
     }
 
@@ -68,6 +73,12 @@ class CreateListModal extends Component<any, any> {
             valid: validName,
             name: validName
         }
+    }
+
+    private createList() {
+
+        const { name: listName } = this.state.create.fields;
+        return axios.post(`${env.apiUrl}/teams/${AuthManager.currentUser.team_id}/tasklists/create`, { listName });
     }
 
     private requiredFieldValid(field: string): boolean {
