@@ -62,7 +62,12 @@ class Auth extends Component<any, any> {
     }
 
     login() {
-        this.authManager.login();
+        return this.authManager.login();
+    }
+
+    register() {
+        const { username, email: userEmail, lastname: lastName, firstname: firstName, password } = this.state.register.fields;
+        return this.authManager.register({ username, userEmail, lastName, firstName, password });
     }
 
     activateTab(tabId: string, target: EventTarget) {
@@ -90,8 +95,8 @@ class Auth extends Component<any, any> {
         this.setState({ login });
 
         if (valid) {
-            this.login();
-            this.props.history.push('/create-team');
+            this.login()
+                .then(() => this.props.history.push('/create-team'));
         }
     }
 
@@ -138,8 +143,9 @@ class Auth extends Component<any, any> {
         this.setState({ register });
 
         if (valid) {
-            this.login();
-            this.props.history.push('/create-team');
+            this.register()
+                .then(() => this.login())
+                .then(() => this.props.history.push('/create-team'));
         }
     }
 

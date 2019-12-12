@@ -1,3 +1,6 @@
+import axios from 'axios';
+import env from "./env";
+
 class AuthManager {
 
     private static observers: any[] = [];
@@ -22,14 +25,25 @@ class AuthManager {
 
     login() {
 
-        localStorage.setItem('loggedIn', 'true');
-        this.notify('login');
+        return Promise.resolve()
+            .then(() => {
+                localStorage.setItem('loggedIn', 'true');
+                this.notify('login');
+            });
+    }
+
+    register(registerFields: any) {
+
+        return axios.post(`${env.apiUrl}/users/create`, registerFields);
     }
 
     logout() {
 
-        localStorage.removeItem('loggedIn');
-        this.notify('logout');
+        return Promise.resolve()
+            .then(() => {
+                localStorage.removeItem('loggedIn');
+                this.notify('logout');
+            });
     }
 }
 
