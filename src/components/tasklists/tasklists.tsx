@@ -25,7 +25,7 @@ class Taskslists extends Component<any, any> {
             showDeleteTaskModal: false,
             showCreateTaskModal: false,
             showTaskDetailsModal: false,
-            task: {},
+            task: { tasklist: {} },
             tasklist: {},
             tasklists: []
         };
@@ -40,7 +40,7 @@ class Taskslists extends Component<any, any> {
 
     private readTasklists() {
 
-        axios.get(`${env.apiUrl}/teams/${AuthManager.currentUser.team_id}/tasklists/read`)
+        axios.get(`${env.apiUrl}/teams/${AuthManager.currentUser.team.teamId}/tasklists/read`)
             .then((response) => {
 
                 const { data } = response;
@@ -58,14 +58,19 @@ class Taskslists extends Component<any, any> {
         this.setState({ [`show${which}Modal`]: true });
     }
 
+    showCreateTaskModal(tasklist: any) {
+
+        this.setState({ tasklist }, () => this.showModal('CreateTask'));
+    }
+
     showTaskDetailsModal(task: any) {
 
-        this.setState({ showTaskDetailsModal: true, task });
+        this.setState({ task }, () => this.showModal('TaskDetails'));
     }
 
     showEditListModal(tasklist: any) {
 
-        this.setState({ showEditListModal: true, tasklist });
+        this.setState({ tasklist }, () => this.showModal('EditList'));
     }
 
     resetModalsState() {
@@ -88,8 +93,15 @@ class Taskslists extends Component<any, any> {
 
     deleteList() {
 
-        axios.delete(`${env.apiUrl}/teams/${AuthManager.currentUser.team_id}/tasklists/delete/${this.state.tasklist.listId}`)
+        axios.delete(`${env.apiUrl}/teams/${AuthManager.currentUser.team.teamId}/tasklists/delete/${this.state.tasklist.listId}`)
             .then(() => this.showModal('DeleteList'))
+            .then(() => this.readTasklists());
+    }
+
+    deleteTask() {
+
+        axios.delete(`${env.apiUrl}/tasks/delete/${this.state.task.taskId}`)
+            .then(() => this.showModal('DeleteTask'))
             .then(() => this.readTasklists());
     }
 
@@ -107,12 +119,12 @@ class Taskslists extends Component<any, any> {
                                 <p className="tasklist-header"><a onClick={() => this.showEditListModal(tasklist)}>{tasklist.listName}</a></p>
                                 <div className="tasklist-body">
                                     {tasklist.tasks.map((task: any) => {
-                                        const isOverdue = Date.parse(task.taskDeadline) >= Date.now();
+                                        const isOverdue = Date.parse(task.taskDeadline) <= Date.now();
                                         return (
                                             <div className={`task ${task.isDone ? 'done' : ''} ${isOverdue ? 'overdue' : ''}`} onClick={() => this.showTaskDetailsModal(task)}>{task.taskTitle}</div>
                                         );
                                     })}
-                                    <button onClick={() => this.showModal('CreateTask')}>Add +</button>
+                                    <button onClick={() => this.showCreateTaskModal(tasklist)}>Add +</button>
                                 </div>
                             </div>
                         );
@@ -123,9 +135,9 @@ class Taskslists extends Component<any, any> {
                 </div>
                 <CreateListModal show={this.state.showCreateListModal} onClose={this.resetModalsState.bind(this)} onSuccess={this.refreshTasklists.bind(this)} />
                 <EditListModal show={this.state.showEditListModal} tasklist={this.state.tasklist} onDeleteClick={() => this.deleteList()} onClose={this.resetModalsState.bind(this)} onSuccess={this.refreshTasklists.bind(this)} />
-                <CreateTaskModal show={this.state.showCreateTaskModal} onClose={this.resetModalsState.bind(this)} />
+                <CreateTaskModal show={this.state.showCreateTaskModal} tasklist={this.state.tasklist} onClose={this.resetModalsState.bind(this)} onSuccess={this.refreshTasklists.bind(this)} />
                 <TaskDetailsModal show={this.state.showTaskDetailsModal} task={this.state.task} onEditClick={() => this.showModal('EditTask')} onClose={this.resetModalsState.bind(this)} />
-                <EditTaskModal show={this.state.showEditTaskModal} onDeleteClick={() => this.showModal('DeleteTask')} onClose={this.resetModalsState.bind(this)} />
+                <EditTaskModal show={this.state.showEditTaskModal} task={this.state.task} tasklists={this.state.tasklists} onDeleteClick={() => this.deleteTask()} onClose={this.resetModalsState.bind(this)} onSuccess={this.refreshTasklists.bind(this)} />
                 <DeleteTaskInfoModal show={this.state.showDeleteTaskModal} onClose={this.resetModalsState.bind(this)} />
                 <DeleteListInfoModal show={this.state.showDeleteListModal} onClose={this.resetModalsState.bind(this)} />
             </div>

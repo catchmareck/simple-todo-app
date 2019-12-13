@@ -4,7 +4,7 @@ class ValidationManager {
 
     static requiredFieldValid(field: string): boolean {
 
-        return Boolean(field) && field.trim().length > 0;
+        return Boolean(field) && field.toString().trim().length > 0;
     }
 
     static emailFieldValid(email: string): boolean {

@@ -97,7 +97,7 @@ class Auth extends Component<any, any> {
         if (valid) {
             this.login()
                 .then(() => {
-                    if (AuthManager.currentUser.team_id === null) {
+                    if (AuthManager.currentUser.team.teamId === null) {
                         this.props.history.push('/create-team');
                     } else {
                         this.props.history.push('/tasklists');

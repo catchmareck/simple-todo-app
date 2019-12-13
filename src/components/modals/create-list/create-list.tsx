@@ -78,7 +78,7 @@ class CreateListModal extends Component<any, any> {
     private createList() {
 
         const { name: listName } = this.state.create.fields;
-        return axios.post(`${env.apiUrl}/teams/${AuthManager.currentUser.team_id}/tasklists/create`, { listName });
+        return axios.post(`${env.apiUrl}/teams/${AuthManager.currentUser.team.teamId}/tasklists/create`, { listName });
     }
 
     private requiredFieldValid(field: string): boolean {

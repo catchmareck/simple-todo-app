@@ -1,13 +1,16 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
+import axios from 'axios';
+import env from "../../../services/env";
 import './create-task.scss';
 import ModalsManager from "../../../services/modals-manager";
 import ValidationManager from "../../../services/validation-manager";
+import AuthManager from "../../../services/auth-manager";
 
 class CreateTaskModal extends Component<any, any> {
 
     private modalsManager: ModalsManager;
 
-    constructor(props: { show: boolean, onClose?: Function }) {
+    constructor(props: { show: boolean, tasklist: any, onClose?: Function, onSuccess?: Function }) {
         super(props);
 
         this.state = {
@@ -75,7 +78,9 @@ class CreateTaskModal extends Component<any, any> {
         this.setState({ create });
 
         if (valid) {
-            this.closeModal();
+            this.createTask()
+                .then(() => this.props.onSuccess())
+                .then(() => this.closeModal());
         }
     }
 
@@ -94,6 +99,15 @@ class CreateTaskModal extends Component<any, any> {
             valid: !Object.values(validation).includes(false),
             ...validation
         }
+    }
+
+    private createTask() {
+
+        const { title: taskTitle, description: taskDescription, deadline: taskDeadline } = this.state.create.fields;
+        const { listId } = this.props.tasklist;
+        const assignees = this.state.create.fields.assignees.map((ass: any) => Number(ass));
+
+        return axios.post(`${env.apiUrl}/tasks/create`, { listId, taskTitle, taskDescription, isDone: false, taskDeadline, assignees });
     }
 
     private requiredFieldValid(field: string): boolean {
@@ -132,9 +146,9 @@ class CreateTaskModal extends Component<any, any> {
                         <input type="date" className={!this.state.create.validation.deadlineOk ? "invalid-user-input" : ""} name="create-deadline" placeholder="Deadline" value={this.state.create.fields.deadline} onChange={this.handleChange} />
                         <p className="text-center invalid-form-message m-0 mt-1">{!this.state.create.validation.deadlineOk ? "Deadline should be later than today and have format of DD-MM-YYYY" : ""}</p>
                         <select multiple className={!this.state.create.validation.assigneesOk ? "invalid-user-input" : ""} name="create-assignees" value={this.state.create.fields.assignees} onChange={this.handleSelectChange}>
-                            <option value="1">John Doe</option>
-                            <option value="2">Alie Bartner</option>
-                            <option value="3">Evan Hoggs</option>
+                            {AuthManager.currentUser.team.users.map((user: any) => {
+                                return (<option value={user.userId}>{user.displayName}</option>)
+                            })}
                         </select>
 
                         <button type="submit">Create</button>

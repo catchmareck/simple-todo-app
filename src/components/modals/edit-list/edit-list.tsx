@@ -81,7 +81,7 @@ class EditListModal extends Component<any, any> {
     private editList() {
 
         const { name: listName } = this.state.edit.fields;
-        return axios.put(`${env.apiUrl}/teams/${AuthManager.currentUser.team_id}/tasklists/update/${this.props.tasklist.listId}`, { listName });
+        return axios.put(`${env.apiUrl}/teams/${AuthManager.currentUser.team.teamId}/tasklists/update/${this.props.tasklist.listId}`, { listName });
     }
 
     private requiredFieldValid(field: string): boolean {
