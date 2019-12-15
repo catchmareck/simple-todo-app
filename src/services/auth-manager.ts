@@ -36,7 +36,7 @@ class AuthManager {
 
                 if (AuthManager.currentUser.team_id !== null) {
 
-                    return axios.get(`${env.apiUrl}/teams/${AuthManager.currentUser.team.teamId}/read`);
+                    return axios.get(`${env.apiUrl}/teams/read/${AuthManager.currentUser.team.teamId}`);
                 } else {
 
                     return Promise.resolve({});
