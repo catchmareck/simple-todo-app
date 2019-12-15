@@ -54,6 +54,7 @@ class CreateTeam extends Component<any, any> {
 
         if (valid) {
             this.create()
+                .then((response) => this.getTeamDetails(response))
                 .then(() => this.props.history.push('/tasklists'));
         }
     }
@@ -75,6 +76,16 @@ class CreateTeam extends Component<any, any> {
         const { name: teamName, description: teamDescription } = this.state.create.fields;
         const adminId = AuthManager.currentUser.userId;
         return axios.post(`${env.apiUrl}/teams/create`, { teamName, teamDescription, adminId });
+    }
+
+    private getTeamDetails(response: any) {
+
+        const { data } = response;
+        return axios.get(`${env.apiUrl}/teams/read/${data.teamId}`)
+            .then((response) => {
+
+                AuthManager.currentUser.team = response.data;
+            });
     }
 
     private requiredFieldValid(field: string): boolean {

@@ -41,7 +41,7 @@ class Navbar extends Component<any, any> {
                         this.state.isLoggedIn ?
                         (
                             <span>
-                                <a href="#" className="mx-2">Hello, John</a>
+                                <a href="#" className="mx-2">Hello, {AuthManager.currentUser.displayName}</a>
                                 <a href="#" className="mx-2" onClick={this.logout}>Logout</a>
                             </span>
                         ) : ''

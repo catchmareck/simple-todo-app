@@ -3,18 +3,7 @@ import env from "./env";
 
 class AuthManager {
 
-    public static currentUser: any = {
-        "userId": 1,
-        "username": "alamakota",
-        "userEmail": "ala@mako.ta",
-        "displayName": "Ala Makota",
-        "firstName": "Ala",
-        "lastName": "Makota",
-        "active": true,
-        "createdAt": "2019-12-12T22:47:41.000Z",
-        "updatedAt": "2019-12-12T22:47:46.000Z",
-        "team": {"teamId":2,"teamName":"twert","teamDescription":"wertwert","createdAt":"2019-12-12T22:53:34.000Z","updatedAt":"2019-12-12T22:53:34.000Z","admin_id":1,"tasklists":[],"users":[{"userId":1,"username":"alamakota","userEmail":"ala@mako.ta","displayName":"Ala Makota","firstName":"Ala","lastName":"Makota","active":true,"createdAt":"2019-12-12T22:47:41.000Z","updatedAt":"2019-12-12T22:53:34.000Z","team_id":2}],"TeamAdmin":{"userId":1,"username":"alamakota","userEmail":"ala@mako.ta","displayName":"Ala Makota","firstName":"Ala","lastName":"Makota","active":true,"createdAt":"2019-12-12T22:47:41.000Z","updatedAt":"2019-12-12T22:53:34.000Z","team_id":2}}
-    };
+    public static currentUser: any = {};
 
     private static observers: any[] = [];
 
@@ -36,22 +25,29 @@ class AuthManager {
         return localStorage.getItem('loggedIn') !== null;
     }
 
-    login() {
+    login(loginFields: any) {
 
-        return Promise.resolve()
+        return axios.put(`${env.apiUrl}/users/login`, loginFields)
+            .then((response) => {
+
+                AuthManager.currentUser = response.data;
+            })
             .then(() => {
-                AuthManager.currentUser = {
-                    "userId": 1,
-                    "username": "alamakota",
-                    "userEmail": "ala@mako.ta",
-                    "displayName": "Ala Makota",
-                    "firstName": "Ala",
-                    "lastName": "Makota",
-                    "active": true,
-                    "createdAt": "2019-12-12T22:47:41.000Z",
-                    "updatedAt": "2019-12-12T22:47:46.000Z",
-                    "team": {"teamId":2,"teamName":"twert","teamDescription":"wertwert","createdAt":"2019-12-12T22:53:34.000Z","updatedAt":"2019-12-12T22:53:34.000Z","admin_id":1,"tasklists":[],"users":[{"userId":1,"username":"alamakota","userEmail":"ala@mako.ta","displayName":"Ala Makota","firstName":"Ala","lastName":"Makota","active":true,"createdAt":"2019-12-12T22:47:41.000Z","updatedAt":"2019-12-12T22:53:34.000Z","team_id":2}],"TeamAdmin":{"userId":1,"username":"alamakota","userEmail":"ala@mako.ta","displayName":"Ala Makota","firstName":"Ala","lastName":"Makota","active":true,"createdAt":"2019-12-12T22:47:41.000Z","updatedAt":"2019-12-12T22:53:34.000Z","team_id":2}}
-                };
+
+                if (AuthManager.currentUser.team_id !== null) {
+
+                    return axios.get(`${env.apiUrl}/teams/${AuthManager.currentUser.team.teamId}/read`);
+                } else {
+
+                    return Promise.resolve({});
+                }
+            })
+            .then((response: any) => {
+
+                if (response.data) {
+
+                    AuthManager.currentUser.team = response.data;
+                }
 
                 localStorage.setItem('loggedIn', 'true');
                 this.notify('login');

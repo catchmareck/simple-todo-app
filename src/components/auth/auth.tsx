@@ -62,7 +62,8 @@ class Auth extends Component<any, any> {
     }
 
     login() {
-        return this.authManager.login();
+        const { username, password } = this.state.login.fields;
+        return this.authManager.login({ username, password });
     }
 
     register() {
@@ -97,7 +98,7 @@ class Auth extends Component<any, any> {
         if (valid) {
             this.login()
                 .then(() => {
-                    if (AuthManager.currentUser.team.teamId === null) {
+                    if (AuthManager.currentUser.team_id === null || ! AuthManager.currentUser.team) {
                         this.props.history.push('/create-team');
                     } else {
                         this.props.history.push('/tasklists');
@@ -141,12 +142,18 @@ class Auth extends Component<any, any> {
             return res;
         }, {});
 
-        const { register } = this.state;
+        const { register, login } = this.state;
         register.validation = {
             message: valid ? '' : 'Please fill all required values correctly',
             ...stateValidation
         };
         this.setState({ register });
+
+        login.fields = {
+            username: register.fields.username,
+            password: register.fields.password
+        };
+        this.setState({ login });
 
         if (valid) {
             this.register()
