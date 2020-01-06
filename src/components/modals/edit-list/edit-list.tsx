@@ -14,7 +14,6 @@ class EditListModal extends Component<any, any> {
     constructor(props: { show: boolean, tasklist: any, onClose?: Function, onDeleteClick?: Function, onSuccess?: Function }) {
         super(props);
 
-        console.log(props.tasklist);
         this.state = {
             show: props.show,
             edit: {
