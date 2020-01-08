@@ -24,13 +24,15 @@ class TeamSettings extends Component<any, any> {
                 }
             },
             members: [],
-            users: []
+            users: [],
+            newMember: ''
         };
 
         this.authManager.observe(this);
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleMemberSelectChange = this.handleMemberSelectChange.bind(this);
         this.handleDeleteMember = this.handleDeleteMember.bind(this);
         this.handleAddMember = this.handleAddMember.bind(this);
     }
@@ -53,6 +55,8 @@ class TeamSettings extends Component<any, any> {
             this.setState({ edit: state });
             this.authManager.notify('team');
         }
+
+        this.getAllUsers();
     }
 
     handleChange(e: ChangeEvent) {
@@ -63,6 +67,12 @@ class TeamSettings extends Component<any, any> {
         const state = this.state[formType];
         state.fields[fieldName] = target.value;
         this.setState({ [formType]: state });
+    }
+
+    handleMemberSelectChange(e: ChangeEvent) {
+
+        const target: HTMLSelectElement = e.target as HTMLSelectElement;
+        this.setState({ newMember: target.value });
     }
 
     handleEdit(e: FormEvent) {
@@ -116,8 +126,12 @@ class TeamSettings extends Component<any, any> {
     }
 
     private getAllUsers() {
-        // TODO
-        console.log('TODO getAllUsers()');
+
+        axios.get(`${env.apiUrl}/users/read`)
+            .then((response) => {
+
+                this.setState({ users: response.data });
+            });
     }
 
     private requiredFieldValid(field: string): boolean {
@@ -130,14 +144,18 @@ class TeamSettings extends Component<any, any> {
         this.props.history.push(link);
     }
 
-    private handleDeleteMember() {
-        // TODO
-        console.log('TODO handleDeleteMember()');
+    private handleDeleteMember(userId: number) {
+
+        const { team: { teamId } } = AuthManager.currentUser;
+        axios.put(`${env.apiUrl}/teams/update/${teamId}/members/delete/${userId}`)
+            .then(() => this.getTeamDetails({ data: AuthManager.currentUser.team }));
     }
 
     private handleAddMember() {
-        // TODO
-        console.log('TODO handleAddMember()');
+
+        const { team: { teamId } } = AuthManager.currentUser;
+        axios.put(`${env.apiUrl}/teams/update/${teamId}/members/add/${this.state.newMember}`)
+            .then(() => this.getTeamDetails({ data: AuthManager.currentUser.team }));
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -170,7 +188,7 @@ class TeamSettings extends Component<any, any> {
                                 </thead>
                                 <tbody>
                                     {this.state.members.map((member: any) => {
-                                        const action = AuthManager.currentUser.roles.some((role: any) => role.roleName === 'administrator') ? <td><a href='#' onClick={this.handleDeleteMember}>Delete</a></td> : <td>(unavailable)</td>;
+                                        const action = AuthManager.currentUser.roles.some((role: any) => role.roleName === 'administrator') ? <td><a href='#' onClick={() => this.handleDeleteMember(member.userId)}>Delete</a></td> : <td>(unavailable)</td>;
                                         return (<tr>
                                             <td>{member.displayName}</td>
                                             {action}
@@ -180,7 +198,7 @@ class TeamSettings extends Component<any, any> {
                             </table>
                         </div>
                         <div className="row d-flex">
-                            <select name="member" className="my-2" defaultValue="" onClick={() => this.getAllUsers()}>
+                            <select name="member" className="my-2" defaultValue={''} onChange={this.handleMemberSelectChange}>
                                 <option value="" defaultChecked={true} disabled>Member</option>
                                 {this.state.users.map((user: any) => {
 
