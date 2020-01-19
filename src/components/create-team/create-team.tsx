@@ -55,6 +55,9 @@ class CreateTeam extends Component<any, any> {
         if (valid) {
             this.create()
                 .then((response) => this.getTeamDetails(response))
+                .then(() => this.getAllRoles())
+                .then(() => this.giveAdminPermissionsToTeam())
+                .then(() => this.updateCurrentUserStateRoles())
                 .then(() => this.props.history.push('/tasklists'));
         }
     }
@@ -86,6 +89,28 @@ class CreateTeam extends Component<any, any> {
 
                 AuthManager.currentUser.team = response.data;
             });
+    }
+
+    private getAllRoles() {
+
+        return axios.get(`${env.apiUrl}/roles/read`)
+            .then((response) => {
+
+                AuthManager.allRoles = response.data;
+            });
+    }
+
+    private giveAdminPermissionsToTeam() {
+
+        const { userId } = AuthManager.currentUser;
+        const [{ roleId }] = AuthManager.allRoles.filter((role: any) => role.roleName === 'administrator');
+        return axios.put(`${env.apiUrl}/users/update/${userId}`, { roles: [roleId] })
+    }
+
+    private updateCurrentUserStateRoles() {
+
+        const [role] = AuthManager.allRoles.filter((role: any) => role.roleName === 'administrator');
+        AuthManager.currentUser.roles.push(role);
     }
 
     private requiredFieldValid(field: string): boolean {

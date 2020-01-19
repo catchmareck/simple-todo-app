@@ -4,6 +4,7 @@ import env from "./env";
 class AuthManager {
 
     public static currentUser: any = {};
+    public static allRoles: any[] = [];
 
     private static observers: any[] = [];
 
