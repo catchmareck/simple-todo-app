@@ -188,7 +188,10 @@ class TeamSettings extends Component<any, any> {
                                 </thead>
                                 <tbody>
                                     {this.state.members.map((member: any) => {
-                                        const action = AuthManager.currentUser.roles.some((role: any) => role.roleName === 'administrator') && AuthManager.currentUser.userId === AuthManager.currentUser.team.admin_id ? <td><a href='#' onClick={() => this.handleDeleteMember(member.userId)}>Delete</a></td> : <td>(unavailable)</td>;
+                                        const isAdmin = AuthManager.currentUser.roles.some((role: any) => role.roleName === 'administrator');
+                                        const isTeamAdmin = AuthManager.currentUser.userId === AuthManager.currentUser.team.admin_id;
+                                        const isCurrentUser = AuthManager.currentUser.userId === member.userId;
+                                        const action = isAdmin && isTeamAdmin && ! isCurrentUser ? <td><a href='#' onClick={() => this.handleDeleteMember(member.userId)}>Delete</a></td> : <td>(unavailable)</td>;
                                         return (<tr>
                                             <td>{member.displayName}</td>
                                             {action}
