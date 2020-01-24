@@ -11,6 +11,8 @@ class EditListModal extends Component<any, any> {
     private modalsManager: ModalsManager;
     private onDeleteClick: Function;
 
+    private tempListName: string;
+
     constructor(props: { show: boolean, tasklist: any, onClose?: Function, onDeleteClick?: Function, onSuccess?: Function }) {
         super(props);
 
@@ -27,6 +29,8 @@ class EditListModal extends Component<any, any> {
             }
         };
 
+        this.tempListName = '';
+
         this.modalsManager = new ModalsManager(this);
         this.onDeleteClick = props.onDeleteClick || (() => {});
         this.closeModal = this.closeModal.bind(this);
@@ -42,6 +46,8 @@ class EditListModal extends Component<any, any> {
         const state = this.state[formType];
         state.fields[fieldName] = target.value;
         this.setState({ [formType]: state });
+
+        this.tempListName = target.value;
     }
 
     handleEdit(e: FormEvent) {
@@ -91,6 +97,7 @@ class EditListModal extends Component<any, any> {
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
 
         this.modalsManager.componentDidUpdate();
+        this.tempListName = this.props.tasklist.listName;
     }
 
     closeModal() {
@@ -108,7 +115,7 @@ class EditListModal extends Component<any, any> {
                 </div>
                 <div className="modal-body">
                     <form className="form" onSubmit={this.handleEdit}>
-                        <input type="text" className={!this.state.edit.validation.nameOk ? "invalid-user-input" : ""} name="edit-name" placeholder="List name" value={this.state.edit.fields.name} onChange={this.handleChange} />
+                        <input type="text" className={!this.state.edit.validation.nameOk ? "invalid-user-input" : ""} name="edit-name" placeholder="List name" value={this.tempListName} onChange={this.handleChange} />
                         <p className="text-center invalid-form-message m-0 mt-1">{!this.state.edit.validation.nameOk ? "This field is required" : ""}</p>
 
                         <button type="submit">Save</button>
