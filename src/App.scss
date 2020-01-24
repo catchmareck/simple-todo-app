@@ -44,6 +44,11 @@ body {
   font-size: .85rem;
 }
 
+.valid-form-message {
+  color: $valid-form-text-color;
+  font-size: .85rem;
+}
+
 .invalid-user-input {
   border: 1px solid $invalid-form-text-color;
 }

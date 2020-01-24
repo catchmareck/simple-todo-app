@@ -19,6 +19,7 @@ class TeamSettings extends Component<any, any> {
                 },
                 validation: {
                     message: '',
+                    successMsg: '',
                     nameOk: true,
                     descriptionOk: true
                 }
@@ -84,6 +85,7 @@ class TeamSettings extends Component<any, any> {
         const { edit } = this.state;
         edit.validation = {
             message: valid ? '' : 'Please fill all required fields correctly',
+            successMsg: edit.validation.successMsg,
             nameOk: name,
             descriptionOk: true
         };
@@ -91,7 +93,14 @@ class TeamSettings extends Component<any, any> {
 
         if (valid) {
             this.editTeamSettings()
+                .then(() => {
+                    edit.validation.successMsg = 'Success!';
+                    this.setState({ edit })
+                })
                 .then(() => this.getTeamDetails({ data: AuthManager.currentUser.team }));
+        } else {
+            edit.validation.successMsg = '';
+            this.setState({ edit });
         }
     }
 
@@ -171,6 +180,7 @@ class TeamSettings extends Component<any, any> {
                     <div className="team-details-col">
                         <form id="team-details-form" className="form pt-0" onSubmit={this.handleEdit}>
                             <p className="text-center invalid-form-message m-0 mt-1">{this.state.edit.validation.message}</p>
+                            <p className="text-center valid-form-message m-0 mt-1">{this.state.edit.validation.successMsg}</p>
                             <input type="text"  className={!this.state.edit.validation.nameOk ? "invalid-user-input" : ""} name="edit-name" placeholder="Team name" value={this.state.edit.fields.name} onChange={this.handleChange} />
                             <textarea name="edit-description" placeholder="Team description" value={this.state.edit.fields.description} onChange={this.handleChange}></textarea>
 
