@@ -73,7 +73,7 @@ class TaskDetailsModal extends Component<any, any> {
                     <div className="row">
                         <select multiple defaultValue={assigneesValue} disabled={true}>
                             {AuthManager.currentUser.team.users.map((user: any) => {
-                                return (<option value={user.userId}>{user.displayName}</option>)
+                                return (<option value={user.userId} selected={assigneesValue.includes(user.userId.toString())}>{user.displayName}</option>)
                             })}
                         </select>
                     </div>
