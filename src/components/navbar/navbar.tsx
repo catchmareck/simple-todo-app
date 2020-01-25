@@ -11,7 +11,8 @@ class Navbar extends Component<any, any> {
         super(props);
 
         this.state = {
-            isLoggedIn: this.authManager.isLoggedIn()
+            isLoggedIn: this.authManager.isLoggedIn(),
+            displayName: AuthManager.currentUser.displayName
         };
 
         this.authManager.observe(this);
@@ -23,9 +24,14 @@ class Navbar extends Component<any, any> {
         this.authManager.logout();
     }
 
-    update() {
+    update(action: string) {
 
         this.setState({ isLoggedIn: this.authManager.isLoggedIn() });
+
+        if (action === 'displayName' || action === 'login') {
+
+            this.setState({ displayName: AuthManager.currentUser.displayName });
+        }
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
@@ -41,7 +47,7 @@ class Navbar extends Component<any, any> {
                         this.state.isLoggedIn ?
                         (
                             <span>
-                                <a href="#" className="mx-2">Hello, {AuthManager.currentUser.displayName}</a>
+                                <a href="#" className="mx-2">Hello, {this.state.displayName}</a>
                                 <a href="#" className="mx-2" onClick={this.logout}>Logout</a>
                             </span>
                         ) : ''

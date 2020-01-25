@@ -111,6 +111,7 @@ class Taskslists extends Component<any, any> {
             <div id="tasklists" className="d-flex px-3">
                 <div className="row tasklists-header">
                     <button onClick={() => this.navigateTo('/team-settings')}>Edit team</button>
+                    <button className={'ml-2'} onClick={() => this.navigateTo('/user-settings')}>Edit user</button>
                 </div>
                 <div className="row tasklists-body d-flex">
                     {this.state.tasklists.map((tasklist: any) => {

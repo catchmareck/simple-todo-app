@@ -33,26 +33,33 @@ class AuthManager {
 
                 AuthManager.currentUser = response.data;
             })
-            .then(() => {
-
-                if (AuthManager.currentUser.team_id !== null) {
-
-                    return axios.get(`${env.apiUrl}/teams/read/${AuthManager.currentUser.team.teamId}`);
-                } else {
-
-                    return Promise.resolve({});
-                }
-            })
+            .then(() => this.populateUserTeam())
             .then((response: any) => {
 
-                if (response.data) {
-
-                    AuthManager.currentUser.team = response.data;
-                }
+                this.setPopulatedData(response);
 
                 localStorage.setItem('loggedIn', 'true');
                 this.notify('login');
             });
+    }
+
+    populateUserTeam() {
+
+        if (AuthManager.currentUser.team_id !== null) {
+
+            return axios.get(`${env.apiUrl}/teams/read/${AuthManager.currentUser.team.teamId}`);
+        } else {
+
+            return Promise.resolve({});
+        }
+    }
+
+    setPopulatedData(response: any) {
+
+        if (response.data) {
+
+            AuthManager.currentUser.team = response.data;
+        }
     }
 
     register(registerFields: any) {

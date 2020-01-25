@@ -3,6 +3,7 @@ import Auth from "./auth/auth";
 import CreateTeam from "./create-team/create-team";
 import Taskslists from "./tasklists/tasklists";
 import TeamSettings from "./team-settings/team-settings";
+import UserSettings from "./user-settings/user-settings";
 import CreateListModal from "./modals/create-list/create-list";
 import CreateTaskModal from "./modals/create-task/create-task";
 import DeleteListInfoModal from "./modals/delete-list-info/delete-list-info";
@@ -12,6 +13,6 @@ import EditTaskModal from "./modals/edit-task/edit-task";
 import TaskDetailsModal from "./modals/task-details/task-details";
 
 export {
-    Navbar, Auth, CreateTeam, Taskslists, TeamSettings,
+    Navbar, Auth, CreateTeam, Taskslists, TeamSettings, UserSettings,
     CreateListModal, CreateTaskModal, DeleteListInfoModal, DeleteTaskInfoModal, EditListModal, EditTaskModal, TaskDetailsModal
 };

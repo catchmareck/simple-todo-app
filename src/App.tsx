@@ -5,7 +5,7 @@ import {
     Route
 } from 'react-router-dom';
 import './App.scss';
-import {Navbar, Auth, Taskslists, CreateTeam, TeamSettings} from "./components";
+import {Navbar, Auth, Taskslists, CreateTeam, TeamSettings, UserSettings} from "./components";
 
 const App: React.FC = () => {
   return (
@@ -17,6 +17,7 @@ const App: React.FC = () => {
               <Route path="/tasklists" component={Taskslists} />
               <Route path="/create-team" component={CreateTeam} />
               <Route path="/team-settings" component={TeamSettings} />
+              <Route path="/user-settings" component={UserSettings} />
               <Route path="/" component={Auth} />
           </Switch>
       </Router>
